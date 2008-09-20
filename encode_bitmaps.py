@@ -26,12 +26,16 @@ from wx.tools import img2py
 command_lines = [
     "   -u -i -n GrayOrangeStar grayorangestar.png icons.py",
     "-a -u -i -n GrayStar graystar.png icons.py",
+    "-a -u -i -n Help help.png icons.py",
     "-a -u -i -n Info info.png icons.py",
+    "-a -u -i -n Link link.png icons.py",
     "-a -u -i -n Twirli twirli.png icons.py",
     "-a -u -i -n User user.png icons.py",
+    "-a -u -i -n Tag tag.png icons.py",
     "-a -u -i -n Wrench wrench.png icons.py",
     "-a -u -i -n YellowStar yellowstar.png icons.py",
     "-a -u -i -n YellowOrangeStar yelloworangestar.png icons.py",
+    "-a -u -i -n SplashBMP splash.bmp icons.py",
     ]
 
 def makeimages():

@@ -1,3 +1,5 @@
+"""Frame operations"""
+
 #-----------------------------------------------------------------------------
 # Name:        frameops.py
 # Purpose:     
@@ -17,8 +19,8 @@ import wx
 import webbrowser
 # Project modules
 import icons
+import consts
 import netops
-import twirlconst
 from configops import ConfigOps
 
 
@@ -104,7 +106,7 @@ class FrameOps(wx.Frame):
               name='textCtrlSubscribedTags', parent=self.panelRate,
               pos=wx.Point(104, 264), size=wx.Size(200, 48),
               style=wx.TE_MULTILINE, value='')
-        self.textCtrlSubscribedTags.SetMaxLength(512)
+        self.textCtrlSubscribedTags.SetMaxLength(128)
         self.textCtrlSubscribedTags.Bind(wx.EVT_TEXT,
               self.OnTextCtrlSubscribedTagsText,
               id=wxID_FRAMEOPSTEXTCTRLSUBSCRIBEDTAGS)
@@ -383,6 +385,7 @@ class FrameOps(wx.Frame):
 
         self._init_coll_notebookApp_Pages(self.notebookApp)
 
+
     def __init__(self, parent, config, twirlpath):
         """Initialize frame and icons, update frame with
         values from config"""
@@ -397,11 +400,9 @@ class FrameOps(wx.Frame):
         self._config = config
         self._configtmp = ConfigOps()
         self._configtmp.update(config)
-        print self._configtmp
         
         # Set local config variables
         self._twirlpath = twirlpath
-        self._flag = False
         self._hashed = ""
 
         # Set program icon
@@ -422,9 +423,19 @@ class FrameOps(wx.Frame):
         self.notebookApp.SetPageImage(2, iconwrench)
         self.notebookApp.SetPageImage(3, iconinfo)
 
+
+    def OnFrameShow(self):
+        """Update all frame options and status before showing"""
+
+        # Update local copy of config
+        self._configtmp.update(self._config)
+
         # Fix notebook background color when switching themes in XP
         self.notebookApp.SetBackgroundColour(\
             self.notebookApp.GetThemeBackgroundColour())
+
+        # Set flag
+        self.toggleButtonRateFlag.SetValue(self._configtmp["flagimage"])
 
         # Set ratings
         self._iconstars = [icons.getGrayStarBitmap(),
@@ -446,6 +457,22 @@ class FrameOps(wx.Frame):
             self.staticTextSignedIn.SetLabel("    You are signed in.")
             self.textCtrlLogin.WriteText(self._configtmp["login"])
             self.checkBoxLoginRemember.SetValue(True)
+        
+        # Set options
+        _ratelist = [1, 2, 3, 4, 5]
+        self.choiceOptionRatedAtLeast.SetSelection(
+            _ratelist.index(self._configtmp["ratedatleast"]))
+        _percentlist = [5, 10, 20, 50, 75, 100]
+        self.choiceOptionPercentUnrated.SetSelection(
+            _percentlist.index(self._configtmp["percentnew"]))
+        _changeeverylist = [900, 1800, 3600, 7200, 14400, 28800, 86400,
+            172800, 345600, 604800]
+        self.choiceOptionChangeEvery.SetSelection(
+            _changeeverylist.index(self._configtmp["changeevery"]))
+        
+        # Update complete, show frame
+        self.Show()
+        self.Raise()
 
 
     def OnFrameClose(self, event):
@@ -465,7 +492,6 @@ class FrameOps(wx.Frame):
         self.bitmapButton4Star.SetBitmapLabel(startype[3])
         self.bitmapButton5Star.SetBitmapLabel(startype[4])
 
-
     def CalcStar(self, starnum, imagerating, userrating):
         """Calculate the star type that the star button should get
         Star types = [ gray, yellow, gray/orange, yellow/orange ]
@@ -476,59 +502,63 @@ class FrameOps(wx.Frame):
         if userrating >= starnum: type += 2
         return type
 
+
     def OnBitmapButton1StarButton(self, event):
+        """Set star bitmaps to match 1-star button press"""
         self._configtmp["userrating"] = 1
         self.SetStars()
 
     def OnBitmapButton2StarButton(self, event):
+        """Set star bitmaps to match 2-star button press"""
         self._configtmp["userrating"] = 2
         self.SetStars()
 
     def OnBitmapButton3StarButton(self, event):
+        """Set star bitmaps to match 3-star button press"""
         self._configtmp["userrating"] = 3
         self.SetStars()
 
     def OnBitmapButton4StarButton(self, event):
+        """Set star bitmaps to match 4-star button press"""
         self._configtmp["userrating"] = 4
         self.SetStars()
 
     def OnBitmapButton5StarButton(self, event):
+        """Set star bitmaps to match 5-star button press"""
         self._configtmp["userrating"] = 5
         self.SetStars()
 
     def OnToggleButtonRateFlagTogglebutton(self, event):
-        self._flag = True
+        """Set flag variable but do not send until user presses OK"""
+        self._configtmp["flagimage"] = self.toggleButtonRateFlag.GetValue()
 
     def OnButtonNewImageButton(self, event):
-        #***get new image through netops
-        netops.SendMetaData(4)
+        """Initiate new image by setting next change time to 0"""
+        self._config["nextchangetime"] = 0
 
     def OnButtonSubmitterPageButton(self, event):
-        try:
-            #*** update when real url available
-            webbrowser.open(self._configtmp["imageurl"])
-        except:
-            #*** where should no-browser-exception be passed?
-            pass
+        """Open webbrowser to image URL"""
+        webbrowser.open(self._configtmp["imageurl"])
 
     def OnTextCtrlSubscribedTagsText(self, event):
+        """Save user tags but do not send until user presses OK"""
         self._configtmp["subscribedtags"] = event.GetString()
 
     def OnButtonRateOKButton(self, event):
+        """All OK buttons do the same actions --
+        Function forwarded to OnButtonOKButton"""
         self.OnButtonOKButton()
 
     def OnButtonRateCancelButton(self, event):
+        """Rehide frame if action cancelled"""
         self.Hide()
 
     def OnButtonRateHelpButton(self, event):
-        try:
-            #*** update when real url available
-            webbrowser.open("http://www.google.com/search?as_q=rate")
-        except:
-            #*** where should no-browser-exception be passed?
-            pass
+        """Open webbrowser to Rate panel help page"""
+        webbrowser.open(consts.HELP_RATE)
 
     def OnTextCtrlLoginText(self, event):
+        """Save login but do not send until user presses OK"""
         self._configtmp["login"] = event.GetString()
 
     def OnTextCtrlPasswordText(self, event):
@@ -538,92 +568,92 @@ class FrameOps(wx.Frame):
 
     def OnButtonSignInButton(self, event):
         """Send login and hashed password to server, get back userid.
-        Save userid immediately to config so that any image requests
-        are associated with the correct user.
+        Save valid userid immediately to config so that any image
+        requests are associated with the correct user.
         Update text on Sign In page based on whether userid is valid."""
         self._configtmp["userid"] =\
             netops.SendLogin(self._configtmp["login"], self._hashed)
-        self._config["userid"] = self._configtmp["userid"]
         if self._configtmp["userid"] != "0000000000000000":
             self.staticTextSignedIn.SetLabel("    You are signed in.")
+            self._config["userid"] = self._configtmp["userid"]
         else:
             self.staticTextSignedIn.SetLabel("You are not signed in.")
 
     def OnCheckBoxLoginRememberCheckbox(self, event):
+        """Save remember me setting but do not send until user presses OK"""
         self._configtmp["rememberme"] = event.IsChecked()
 
     def OnButtonLoginOKButton(self, event):
+        """All OK buttons do the same actions --
+        Function forwarded to OnButtonOKButton"""
         self.OnButtonOKButton()
 
     def OnButtonLoginCancelButton(self, event):
+        """Rehide frame if action cancelled"""
         self.Hide()
 
     def OnButtonLoginHelpButton(self, event):
-        try:
-            #*** update when real url available
-            webbrowser.open("http://www.google.com/search?as_q=login")
-        except:
-            #*** where should no-browser-exception be passed?
-            pass
+        """Open webbrowser to Sign In panel help page"""
+        webbrowser.open(consts.HELP_LOGIN)
 
     def OnChoiceOptionRatedAtLeastChoice(self, event):
+        """Update minimum rating choice according to user selection"""
         _ratedict = {"1 Star":1, "2 Stars":2, "3 Stars":3,
             "4 Stars":4, "5 Stars":5}
         self._configtmp["ratedatleast"] = _ratedict[event.GetString()]
 
     def OnChoiceOptionPercentUnratedChoice(self, event):
+        """Update percentage choice according to user selection"""
         _percentdict = {"5%":5, "10%":10, "20%":20, "50%":50,
             "75%":75, "100%":100}
         self._configtmp["percentnew"] = _percentdict[event.GetString()]
 
     def OnChoiceOptionChangeEveryChoice(self, event):
+        """Update change time to last change time plus new changeevery so
+        that program does not wait until last changeevery time is up before
+        changing again, which is strange if last changeevery is longer.
+        E.g. Don't make user wait out the rest of the week if he changed
+        his changeevery to an hour.
+        """
         _changedict = {"15 minutes":900, "30 minutes":1800, "1 hour":3600,
             "2 hours":7200, "4 hours":14400, "8 hours":28800, "1 day":86400,
             "2 days":172800, "4 days":345600, "1 week":604800}
 
-        # Update change time to last change time plus new changeevery so
-        # that program does not wait until last changeevery time is up before
-        # changing again, which is strange if last changeevery is longer.
-        # E.g. Don't make user wait out the rest of the week if he changed
-        # his changeevery to an hour.
-        self._configtmp["nextchangetime"] = self._configtmp["nextchangetime"]\
+        self._configtmp["nextchangetime"] = self._config["nextchangetime"]\
             - self._configtmp["changeevery"] + _changedict[event.GetString()]
         self._configtmp["changeevery"] = _changedict[event.GetString()]
 
     def OnButtonOptionsOKButton(self, event):
+        """All OK buttons do the same actions --
+        Function forwarded to OnButtonOKButton"""
         self.OnButtonOKButton()
 
     def OnButtonOptionsCancelButton(self, event):
+        """Rehide frame if action cancelled"""
         self.Hide()
 
     def OnButtonOptionsHelpButton(self, event):
-        try:
-            #*** update when real url available
-            webbrowser.open("http://www.google.com/search?as_q=options")
-        except:
-            #*** where should no-browser-exception be passed?
-            pass
+        """Open webbrowser to Options panel help page"""
+        webbrowser.open(consts.HELP_OPTIONS)
 
     def OnButtonAboutOKButton(self, event):
+        """All OK buttons do the same actions --
+        Function forwarded to OnButtonOKButton"""
         self.OnButtonOKButton()
 
     def OnButtonAboutCancelButton(self, event):
+        """Rehide frame if action cancelled"""
         self.Hide()
 
     def OnButtonAboutHelpButton(self, event):
-        try:
-            #*** update when real url available
-            webbrowser.open("http://www.google.com/search?as_q=about")
-        except:
-            #*** where should no-browser-exception be passed?
-            pass
+        """Open webbrowser to About panel help page"""
+        webbrowser.open(consts.HELP_ABOUT)
 
     def OnButtonOKButton(self):
-        self._config.update(self._configtmp)
-        netops.SendMetaData(twirlconst.FRAMEOK)
-        
-        #*** should send flag and imageid and userid
-        if self._flag: netops.SendMetaData(FLAG)
-        self._config.Save(self._twirlpath)
-        print self._config
+        """Send all metadata to server, update and save config,
+        then hide frame"""
+        netops.SendMetadata(consts.ALL_META)
+        if self._config != self._configtmp:
+            self._config.update(self._configtmp)
+            self._config.Save(self._twirlpath)
         self.Hide()

@@ -9,6 +9,7 @@ Default config file is:
         "nextchangetime"        =       0.0             Next update time, owned by GUIOps
         "imagerating"           =       1               Image rating from server, owned by NetOps
         "userrating"            =       0               Image rating from user (0 is unrated), owned by GUIOps
+        "flagimage"             =       False           Image appropriateness flag, owned by GUIOps
         "imageinfo"                     =       ""              Image info from server, owned by NetOps
         "imageurl"                      =       ""              Image URL from server, owned by NetOps
         "imagetags"                     =       ""              Image tags from submmitter, owned by NetOps
@@ -16,7 +17,6 @@ Default config file is:
         "ratedatleast"          =       1               Minimum image rating, owned by GUIOps
         "percent"                       =       20              Percentage image unrated by user, owned by GUIOps
         "changeevery"           =       3600    Time between updates, owned by GUIOps
-        "url"                           =       ""                              Image source URL, hardcoded
 
 Unmodified config file:
                         data = {"login":"guest",
@@ -26,6 +26,7 @@ Unmodified config file:
                                 "nextchangetime":0.0,
                                 "imagerating":1,
                                 "userrating":0,
+                                "flagimage":False,
                                 "imageinfo":"",
                                 "imageurl":"",
                                 "imagetags":"",
@@ -33,8 +34,24 @@ Unmodified config file:
                                 "ratedatleast":1,
                                 "percentnew":20,
                                 "changeevery":3600,
-                                "url":"",
                                 }
+
+Modified config file:
+            data = {"login":"greatone",
+                "userid":"0000000000001234",
+                "rememberme":True,
+                "imageid":"0000000000000000",
+                "nextchangetime":0.0,
+                "imagerating":3,
+                "userrating":1,
+                "flagimage":False,
+                "imageinfo":"Submitted By: Dmitri,\nLicense: Public Domain",
+                "imageurl":"http://www.google.com/search?as_q=wallpaper",
+                "imagetags":"surfer tide arms weird gogo jumping hot scorch sun waves sand beach slow fast sleep swim bikini bounce bop",
+                "subscribedtags":"run skip hop dance twirl",
+                "ratedatleast":1,
+                "percentnew":20,
+                "changeevery":3600,
 """
 
 
@@ -67,6 +84,7 @@ class ConfigOps(dict):
                 "nextchangetime":0.0,
                 "imagerating":3,
                 "userrating":1,
+                "flagimage":False,
                 "imageinfo":"Submitted By: Dmitri,\nLicense: Public Domain",
                 "imageurl":"http://www.google.com/search?as_q=wallpaper",
                 "imagetags":"surfer tide arms weird gogo jumping hot scorch sun waves sand beach slow fast sleep swim bikini bounce bop",
@@ -74,7 +92,6 @@ class ConfigOps(dict):
                 "ratedatleast":1,
                 "percentnew":20,
                 "changeevery":3600,
-                "url":"",
                 }
         dict.__init__(self, data)
 
@@ -87,7 +104,7 @@ class ConfigOps(dict):
             fconfig = open(twirlpath + "config.dat","rb")
             try:
                 dict.__init__(self,
-                codecops.Decode(fconfig.read()))
+                    codecops.Decode(fconfig.read()))
             finally:
                 fconfig.close()
         except IOError:

@@ -24,7 +24,7 @@ class DisplayError(Exception):
 	pass
 
 
-def DisplayImage(imagedata, exepath):
+def DisplayImage(imagedata, twirlpath):
 	"""Display image as wallpaper (Microsoft Windows version)
 
 	Takes an image file and the executable's path.  If image cannot
@@ -46,7 +46,7 @@ def DisplayImage(imagedata, exepath):
 		#	dispx, dispy = (ctypes.windll.user32.GetSystemMetrics(SM_CXSCREEN),
 		#		ctypes.windll.user32.GetSystemMetrics(SM_CYSCREEN))
 		# Using ctypes method since ctypes already imported, no need to
-		# depend on wx.App being  already created.
+		# depend on wx.App being already created.
 		SM_CXSCREEN = 0
 		SM_CYSCREEN = 1
 		dispx, dispy = (windll.user32.GetSystemMetrics(SM_CXSCREEN),
@@ -54,7 +54,7 @@ def DisplayImage(imagedata, exepath):
 		imagex, imagey = pilimage.size
 		if dispx < imagex or dispy < imagey:
 			pilimage.thumbnail((dispx,dispy), Image.ANTIALIAS)
-		pilimage.save(exepath + "image.bmp")
+		pilimage.save(twirlpath + "image.bmp")
 	except:
 		raise DisplayError("Image cannot be displayed")
 
@@ -63,4 +63,4 @@ def DisplayImage(imagedata, exepath):
 	SPIF_UPDATEINIFILE = 1		# Change INI file
 	SPIF_SENDWININICHANGE = 2	# Notify Windows of INI file change
 	windll.user32.SystemParametersInfoA(SPI_SETDESKWALLPAPER, 0,
-		exepath + "image.bmp" , SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE)
+		twirlpath + "image.bmp" , SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE)

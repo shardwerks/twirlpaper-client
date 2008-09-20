@@ -9,7 +9,8 @@ __copyright__	= "Copyright (c) 2007 Shultz Wang"
 
 # Library modules
 # Project modules
-import twirlconst
+import consts
+from configops import ConfigOps
 
 #for dummy ops
 import os
@@ -27,6 +28,8 @@ class NetOps():
 #	def DownloadImage(self):
 def DownloadImage():
 	# Receive image and metadata
+	# save imageid, imagerating, userrating, imageinfo, imageurl, imagetags
+	# return a tmp config so update doesn't collide with user op?
 
 	#dummy op
 	try:
@@ -42,7 +45,7 @@ def DownloadImage():
 
 
 #	def SendMetaData(self, twirlconst):
-def SendMetaData(twirlconst):
+def SendMetadata(twirlconst):
 	# Send login and metadata
 
 	#dummy op
