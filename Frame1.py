@@ -16,6 +16,7 @@
 import wx
 import webbrowser
 # Project modules
+import icons
 import netops
 import twirlconst
 from configops import ConfigOps
@@ -50,13 +51,13 @@ class Frame(wx.Frame):
     def _init_coll_notebookApp_Pages(self, parent):
         # generated method, don't edit
 
-        parent.AddPage(imageId=-1, page=self.panelRate, select=False,
+        parent.AddPage(imageId=-1, page=self.panelRate, select=True,
               text='Rate')
         parent.AddPage(imageId=-1, page=self.panelLogin, select=False,
               text='Sign In')
         parent.AddPage(imageId=-1, page=self.panelOptions, select=False,
               text='Options')
-        parent.AddPage(imageId=-1, page=self.panelAbout, select=True,
+        parent.AddPage(imageId=-1, page=self.panelAbout, select=False,
               text='About')
 
     def _init_ctrls(self, prnt):
@@ -325,9 +326,33 @@ class Frame(wx.Frame):
         self.textCtrlImageTags.Clear()
         self.textCtrlImageTags.WriteText(self._configtmp["imagetags"])
 
+        # Set local config variables
         self._tpath = tpath
         self._flag = False
         self._hashed = ""
+        
+		# Generate list containing icons
+        iconlist = wx.ImageList(16, 16)
+        iconstar = iconlist.Add(icons.getStarBitmap())
+        iconuser = iconlist.Add(icons.getUserBitmap())
+        iconwrench = iconlist.Add(icons.getWrenchBitmap())
+        iconinfo = iconlist.Add(icons.getInfoBitmap())
+
+        # Assign icon list to notebook, then assign icons
+        # to individual pages
+        self.notebookApp.AssignImageList(iconlist)
+        self.notebookApp.SetPageImage(0, iconstar)
+        self.notebookApp.SetPageImage(1, iconuser)
+        self.notebookApp.SetPageImage(2, iconwrench)
+        self.notebookApp.SetPageImage(3, iconinfo)
+
+        # Fix notebook background color when switching themes in XP
+        self.notebookApp.SetBackgroundColour(\
+            self.notebookApp.GetThemeBackgroundColour())
+
+        # Set program icon
+        icontwirli = icons.getTwirliIcon()
+        self.SetIcon(icontwirli)
 
 
     def OnToggleButtonRateFlagTogglebutton(self, event):

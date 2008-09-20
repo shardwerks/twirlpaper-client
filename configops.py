@@ -3,11 +3,13 @@
 Config data is stored as a dictionary
 Default config file is:
 	"login"				=	"guest"					Username, owned by GUIOps
-	"userid"			=	"0000000000000000"		From server, owned by NetOps
+	"userid"			=	"0000000000000000"		From server, owned by GUIOps
 	"rememberme"		=	False					Store username/userif, owned by GUIOps
 	"imageid"			=	"0000000000000000"		From server, owned by NetOps
 	"checkperiod"		=	60		Time between update checks, owned by GUIOps
 	"nextchangetime"	=	0.0		Next update time, owned by GUIOps
+	"imagerating"		=	1		Image rating from server, owned by NetOps
+	"userrating"		=	1		Image rating from user, owned by GUIOps
 	"imagetags"			=	""		Image tags from submmitter, owned by NetOps
 	"subscribedtags"	=	""		Tags subscribed to by user, owned by GUIOps
 	"ratedatleast"		=	1		Minimum image rating, owned by GUIOps
@@ -45,6 +47,8 @@ class ConfigOps(dict):
 				"imageid":"0000000000000000",
 				"checkperiod":60,
 				"nextchangetime":0.0,
+				"imagerating":1
+				"userrating":1
 				"imagetags":"",
 				"subscribedtags":"",
 				"ratedatleast":1,
