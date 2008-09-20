@@ -29,8 +29,8 @@ def Encode(dictinst):
 
 	s = pickle.dumps(dictinst, pickle.HIGHEST_PROTOCOL)
 	t = binascii.hexlify(s)
-	u = binascii.a2b_base64(t)
-	return u
+	#u = binascii.a2b_base64(t)
+	return t
 
 
 def Decode(dictstr):
@@ -40,8 +40,9 @@ def Decode(dictstr):
 	Current method is NOT secure"""
 
 	try:
-		v = binascii.b2a_base64(dictstr)
-		w = binascii.unhexlify(v[:-1])
+		#v = binascii.b2a_base64(dictstr)
+		#w = binascii.unhexlify(v[:-1])
+		w = binascii.unhexlify(dictstr)
 		x = pickle.loads(w)
 		return x
 	except:

@@ -1,48 +1,50 @@
-"""Display an image as a desktop wallpaper"""
-
-
-__author__		= "Shultz Wang"
-__version__		= "Revision 0.1"
-__date__		= "Tuesday, August 07, 2007 22:59:05"
-__copyright__	= "Copyright (c) 2007 Shultz Wang"
-
+#!/usr/bin/env python
+#Boa:App:BoaApp
 
 # Library modules
+import wx
 #import os
 #import sys
-import wx
 # Project modules
+import frameops
+import taskbarops
 from configops import ConfigOps
 from timerops import TimerOps
 
-#23456789012345678901234567890123456789012345678901234567890123456789012345678
-#TODOs:
-# netops
-# guiops
-# switch displayops to use wx.Image so as to not have to include PIL in package: YAGNI?
+modules ={'frameops': [1, 'Main frame of Application', 'frameops.py']}
 
-# The problem I'm having with transferring the config object back and forth when
-# calling the wxPython frames is that the config object is stateful.  If it's not
-# holding state, then there wouldn't be a need to instantiate it.  If it's not
-# stateful though, aren't I going back to non-OO methods?  Or is this closer to
-# functional programming?
-# This is going to be a problem with other modules as well, the timerops thread is
-# holding state because its time count *IS* its state.
+class BoaApp(wx.App):
 
-# Get executable's path - for when program is converted to exe by py2exe
-#exepath=os.path.dirname(unicode(sys.executable,
-#	sys.getfilesystemencoding( )))
-exepath = 'd:\\'
+    def OnInit(self):
+        # Get executable's path
+        #twirlpath = os.path.dirname(unicode(sys.executable,
+        #	sys.getfilesystemencoding( )))
+        twirlpath = 'd:\\'
 
-wxapp = wx.PySimpleApp()
+        # Start config
+        config = ConfigOps()
+        config.Load(twirlpath)
 
-config = ConfigOps()
-#config.Load(exepath)
-config["waitperiod"]=180
+        # Start timer
+        self.timethread = TimerOps(config, twirlpath)
+        self.timethread.start()
 
-timethread = TimerOps(config, exepath)
-timethread.start()
+        # Start GUI
+        self.frameops = frameops.create(None, config, twirlpath)
+        self.frameops.Hide()
+        self.SetTopWindow(self.frameops)
+        self.taskbarops = taskbarops.TaskbarOps(self)
+        return True
 
-guithread = GUIOps(threadtime, wxapp)
-guithread.start()
+    def OnExit(self):
+        # GUI closed, stop timer
+        self.timethread.Stop()
 
+
+def main():
+    application = BoaApp(0)
+    application.MainLoop()
+
+
+if __name__ == '__main__':
+    main()

@@ -2,14 +2,7 @@
 """
 This is a way to save the startup time when running img2py on lots of
 files...
-"""
 
-import sys
-
-from wx.tools import img2py
-
-
-command_lines = [
     "   -u -i -n Cancel cancel.png icons.py",
     "-a -u -i -n Graystar graystar.png icons.py",
     "-a -u -i -n Help help.png icons.py",
@@ -22,6 +15,23 @@ command_lines = [
     "-a -u -i -n Twirli twirli.png icons.py",
     "-a -u -i -n User user.png icons.py",
     "-a -u -i -n Wrench wrench.png icons.py",
+
+"""
+
+import sys
+
+from wx.tools import img2py
+
+
+command_lines = [
+    "   -u -i -n GrayOrangeStar grayorangestar.png icons.py",
+    "-a -u -i -n GrayStar graystar.png icons.py",
+    "-a -u -i -n Info info.png icons.py",
+    "-a -u -i -n Twirli twirli.png icons.py",
+    "-a -u -i -n User user.png icons.py",
+    "-a -u -i -n Wrench wrench.png icons.py",
+    "-a -u -i -n YellowStar yellowstar.png icons.py",
+    "-a -u -i -n YellowOrangeStar yelloworangestar.png icons.py",
     ]
 
 def makeimages():

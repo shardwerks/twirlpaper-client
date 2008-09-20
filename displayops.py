@@ -27,8 +27,7 @@ class DisplayError(Exception):
 def DisplayImage(imagedata, exepath):
 	"""Display image as wallpaper (Microsoft Windows version)
 
-	Takes an image filename, a tuple containing the display
-	size (x,y), and the executable's path.  If image cannot
+	Takes an image file and the executable's path.  If image cannot
 	be displayed, DisplayError is raised."""
 
 	# If image dimensions != display size,

@@ -20,22 +20,19 @@ from displayops import DisplayImage
 class TimerOps(Thread):
 	"""Timer for wallpaper change"""
 
-	def __init__(self, config, exepath):
+	def __init__(self, config, twirlpath):
 		Thread.__init__(self)
 		self._running = True
 		self._config = config
-		self._exepath = exepath
+		self._twirlpath = twirlpath
 
 	def run(self):
 		# Use time.sleep instead of threading.Timer since the latter will
 		# spawn a separate thread and not be subject to waiting until
 		# the countdown is complete before while-looping again
-		#
-		#*** May need to change to looping sleep(1) in order to not hold
-		#up program exit
 		while (self._running):
-			sleep(self._config["checkperiod"])
-			self.TimeCheck()
+		    sleep(1)
+		    self.TimeCheck()
 
 	def Stop(self):
 		self._running = False
@@ -51,7 +48,7 @@ class TimerOps(Thread):
 
 			# Display new image
 			try:
-				DisplayImage(imagedata, self._exepath)
+				DisplayImage(imagedata, self._twirlpath)
 			except DisplayError:
 				# Send error to server
 				netops.SendMetaData(DISPLAYERROR)
