@@ -1,29 +1,29 @@
 """Configuration data operations
 
 Config data is stored as a dictionary
-Default config file is:
-        "login"                         =       "guest"                                 Username, owned by GUIOps
-        "userid"                        =       "0000000000000000"              From server, owned by GUIOps
-        "rememberme"            =       False                                   Store username/userif, owned by GUIOps
-        "imageid"                       =       "0000000000000000"              From server, owned by NetOps
-        "nextchangetime"        =       0.0             Next update time, owned by GUIOps
-        "imagerating"           =       1               Image rating from server, owned by NetOps
-        "userrating"            =       0               Image rating from user (0 is unrated), owned by GUIOps
-        "flagimage"             =       False           Image appropriateness flag, owned by GUIOps
-        "imageinfo"                     =       ""              Image info from server, owned by NetOps
-        "imageurl"                      =       ""              Image URL from server, owned by NetOps
-        "imagetags"                     =       ""              Image tags from submmitter, owned by NetOps
-        "subscribedtags"        =       ""              Tags subscribed to by user, owned by GUIOps
-        "ratedatleast"          =       1               Minimum image rating, owned by GUIOps
-        "percent"                       =       20              Percentage image unrated by user, owned by GUIOps
-        "changeevery"           =       3600    Time between updates, owned by GUIOps
+Default config file is [changed by, max size]:
+    "username"      =   "Guest"     Username [FrameOps, 32 chars]
+    "clientid"      =   "00000000000000000000000000000000"      From server [FrameOps, 32 chars]
+    "rememberme"    =   False       Store login/clientid [FrameOps, Bool]
+    "imageid"       =   0           From server [NetOps, int]
+    "nextchange"    =   0.0         Next update time [FrameOps, 32 chars]
+    "imagerating"   =   1           Image rating from server [NetOps, int]
+    "userrating"    =   0           User image rating (0=unrated) [FrameOps, int]
+    "flagimage"     =   False       Image appropriateness flag [FrameOps, Bool]
+    "imageinfo"     =   ""          Image info from server [NetOps, 128 chars]
+    "imageurl"      =   ""          Image URL from server [NetOps, 128 chars]
+    "imagetags"     =   ""          Image tags from submmitter [NetOps, 128 chars]
+    "subscribedtags"=   ""          Tags subscribed to by user [FrameOps, 128 chars]
+    "ratedatleast"  =   1           Minimum image rating [FrameOps, int]
+    "percentnew"    =   20          Percentage image unrated by user [FrameOps, int]
+    "changeevery"   =   3600        Time between updates [FrameOps, int]
 
 Unmodified config file:
-                        data = {"login":"guest",
-                                "userid":"0000000000000000",
+                        data = {"username":"Guest",
+                                "clientid":"00000000000000000000000000000000",
                                 "rememberme":False,
-                                "imageid":"0000000000000000",
-                                "nextchangetime":0.0,
+                                "imageid":0,
+                                "nextchange":0.0,
                                 "imagerating":1,
                                 "userrating":0,
                                 "flagimage":False,
@@ -37,11 +37,11 @@ Unmodified config file:
                                 }
 
 Modified config file:
-            data = {"login":"greatone",
-                "userid":"0000000000001234",
+            data = {"username":"greatone",
+                "clientid":"00000000000000000000000000001234",
                 "rememberme":True,
-                "imageid":"0000000000000000",
-                "nextchangetime":0.0,
+                "imageid":12,
+                "nextchange":0.0,
                 "imagerating":3,
                 "userrating":1,
                 "flagimage":False,
@@ -77,11 +77,11 @@ class ConfigOps(dict):
 
     def __init__(self, data=None):
         if data == None:
-            data = {"login":"greatone",
-                "userid":"0000000000001234",
+            data = {"username":"Twirlguest",
+                "clientid":"00000000000000000000000000001234",
                 "rememberme":True,
-                "imageid":"0000000000000000",
-                "nextchangetime":0.0,
+                "imageid":12,
+                "nextchange":0.0,
                 "imagerating":3,
                 "userrating":1,
                 "flagimage":False,
@@ -125,8 +125,8 @@ class ConfigOps(dict):
             try:
                 configtmp = self.copy()
                 if not self["rememberme"]:
-                    configtmp["login"] = "guest"
-                    configtmp["userid"] = "0000000000000000"
+                    configtmp["username"] = "Twirlguest"
+                    configtmp["clientid"] = "00000000000000000000000000000000"
                 configdat = codecops.Encode(configtmp)
                 fconfig.write(configdat)
             finally:

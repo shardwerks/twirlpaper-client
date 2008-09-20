@@ -35,7 +35,7 @@ class TaskbarOps(wx.TaskBarIcon):
     def _init_ctrls(self):
         """Initialize taskbar icon controls - click response, menu"""
         wx.TaskBarIcon.__init__(self)
-        self.Bind(wx.EVT_TASKBAR_LEFT_DCLICK, self.OnTaskBarActivate)
+        self.Bind(wx.EVT_TASKBAR_LEFT_DCLICK, self.OnTaskBarNewImage)
         self.Bind(wx.EVT_MENU, self.OnTaskBarNewImage, id=wxID_TBMENU_NEWIMAGE)
         self.Bind(wx.EVT_MENU, self.OnTaskBarExit, id=wxID_TBMENU_EXIT)
         self.Bind(wx.EVT_MENU, self.OnTaskBarHelp, id=wxID_TBMENU_HELP)
@@ -64,7 +64,9 @@ class TaskbarOps(wx.TaskBarIcon):
         self._twirlpath = twirlpath
 
         # Set taskbar icon and tooltip
-        self.SetIcon(icons.getTwirliIcon(), "Twirli Wallpaper Changer")
+        self.SetIcon(icons.getTwirlIcon(), "Twirlpaper\n"
+            + "  Double click: new wallpaper\n"
+            + "  Right click: options")
 
 
     def CreatePopupMenu(self):
@@ -81,7 +83,7 @@ class TaskbarOps(wx.TaskBarIcon):
         menu = wx.Menu()
         
         newimageitem = wx.MenuItem(menu, wxID_TBMENU_NEWIMAGE, "New wallpaper")
-        newimageitem.SetBitmap(icons.getTwirliBitmap())
+        newimageitem.SetBitmap(icons.getTwirlBitmap())
         menu.AppendItem(newimageitem)
         
         menu.AppendSubMenu(submenu, "Rate")
@@ -131,16 +133,9 @@ class TaskbarOps(wx.TaskBarIcon):
         return menu
 
 
-    def OnTaskBarActivate(self, event):
-        """Toggle frame between shown/hidden"""
-        if self._parent.frameops.IsShown():
-            self._parent.frameops.Hide()
-        else:
-            self._parent.frameops.OnFrameShow()
-
     def OnTaskBarNewImage(self, event):
         """Initiate new image by setting next change time to 0"""
-        self._config["nextchangetime"] = 0
+        self._config["nextchange"] = 0
 
     def OnTaskBarExit(self, event):
         """Destroy taskbar icon then frame"""
@@ -149,7 +144,7 @@ class TaskbarOps(wx.TaskBarIcon):
 
     def OnTaskBarHelp(self, event):
         """Open webbrowser to taskbar help page"""
-        webbrowser.open(consts.HELP_TASKBAR)
+        webbrowser.open(consts.URL_HELP_TASKBAR)
 
     def OnTaskBarOptions(self, event):
         """Open frame to Options panel"""
@@ -165,31 +160,31 @@ class TaskbarOps(wx.TaskBarIcon):
         """Set config data and send metadata to server"""
         self._config["userrating"] = 1
         self._config.Save(self._twirlpath)
-        netops.SendMetadata(consts.RATE_1_STAR)
+        netops.SendMetadata(self._config, consts.RATE_1_STAR)
 
     def OnTaskBarRate2Stars(self, event):
         """Set config data and send metadata to server"""
         self._config["userrating"] = 2
         self._config.Save(self._twirlpath)
-        netops.SendMetadata(consts.RATE_2_STARS)
+        netops.SendMetadata(self._config, consts.RATE_2_STARS)
 
     def OnTaskBarRate3Stars(self, event):
         """Set config data and send metadata to server"""
         self._config["userrating"] = 3
         self._config.Save(self._twirlpath)
-        netops.SendMetadata(consts.RATE_3_STARS)
+        netops.SendMetadata(self._config, consts.RATE_3_STARS)
 
     def OnTaskBarRate4Stars(self, event):
         """Set config data and send metadata to server"""
         self._config["userrating"] = 4
         self._config.Save(self._twirlpath)
-        netops.SendMetadata(consts.RATE_4_STARS)
+        netops.SendMetadata(self._config, consts.RATE_4_STARS)
 
     def OnTaskBarRate5Stars(self, event):
         """Set config data and send metadata to server"""
         self._config["userrating"] = 5
         self._config.Save(self._twirlpath)
-        netops.SendMetadata(consts.RATE_5_STARS)
+        netops.SendMetadata(self._config, consts.RATE_5_STARS)
 
     def OnTaskBarTag(self, event):
         """Open frame to Rate/Tag panel"""
@@ -200,7 +195,7 @@ class TaskbarOps(wx.TaskBarIcon):
         """Toggle config data and send metadata to server"""
         self._config["flagimage"] = not self._config["flagimage"]
         self._config.Save(self._twirlpath)
-        netops.SendMetadata(consts.FLAG_IMAGE)
+        netops.SendMetadata(self._config, consts.FLAG_IMAGE)
 
     def OnTaskBarSubmitter(self, event):
         """Open webbrowser to image URL"""

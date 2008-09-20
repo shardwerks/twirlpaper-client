@@ -1,18 +1,6 @@
 #!/usr/bin/env python
 #Boa:App:BoaApp
 
-"""Client todos:
-- About page
-- Splash screen png
-- Password hashing
-- codec.py
-- netops.py
-- Possible to detect whether popup menu is open?  If so, hold image change
-- Possible to set icons next to submenu?
-- Convert to exe
-- Installer
-- License
-"""
 
 # Library modules
 import wx
@@ -22,10 +10,10 @@ import wx
 import icons
 import frameops
 import taskbarops
-from configops import ConfigOps
 from timerops import TimerOps
+from configops import ConfigOps
 
-modules ={'frameops': [1, 'Main frame of Application', 'frameops.py']}
+modules ={u'frameops': [1, 'Main frame of Application', 'frameops.py']}
 
 class BoaApp(wx.App):
 
@@ -33,33 +21,35 @@ class BoaApp(wx.App):
 
         # Throw up splash screen
         splash = wx.SplashScreen(icons.getSplashBMPBitmap(),\
-            wx.SPLASH_CENTRE_ON_SCREEN | wx.SPLASH_TIMEOUT, 4000, None, -1,\
+            wx.SPLASH_CENTRE_ON_SCREEN | wx.SPLASH_TIMEOUT, 3000, None, -1,\
             wx.DefaultPosition, wx.DefaultSize,\
             wx.SIMPLE_BORDER | wx.FRAME_NO_TASKBAR | wx.STAY_ON_TOP)
 
         # Get executable's path
-        #twirlpath = os.path.dirname(unicode(sys.executable,
+        #***twirlpath = os.path.dirname(unicode(sys.executable,
         #	sys.getfilesystemencoding( )))
-        twirlpath = 'd:\\'
+        self._twirlpath = 'C:\\Documents and Settings\\New User\\Desktop\\Twirlpaper\\'
 
         # Start config
-        config = ConfigOps()
-        config.Load(twirlpath)
+        self._config = ConfigOps()
+        self._config.Load(self._twirlpath)
 
         # Start timer
-        self.timethread = TimerOps(self, config, twirlpath)
+        self.timethread = TimerOps(self, self._config, self._twirlpath)
         self.timethread.start()
 
         # Start GUI
-        self.frameops = frameops.create(None, config, twirlpath)
+        self.frameops = frameops.create(None, self._config, self._twirlpath)
         self.frameops.Hide()
         self.SetTopWindow(self.frameops)
-        self.taskbarops = taskbarops.TaskbarOps(self, config, twirlpath)
+        self.taskbarops =\
+            taskbarops.TaskbarOps(self, self._config, self._twirlpath)
         return True
 
     def OnExit(self):
         # GUI closed, stop timer
         self.timethread.Stop()
+        self._config.Save(self._twirlpath)
 
 
 def main():

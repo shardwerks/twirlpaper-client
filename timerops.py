@@ -8,13 +8,13 @@ __copyright__	= "Copyright (c) 2007 Shultz Wang"
 
 
 # Library modules
-from time import time
-from time import sleep
+from time import time, sleep
 from threading import Thread
 # Project modules
 import netops
 import consts
 from displayops import DisplayImage
+from displayops import DisplayError
 
 
 class TimerOps(Thread):
@@ -45,10 +45,10 @@ class TimerOps(Thread):
 		"""Check if the wait period has passed and update image,
 		but hold off on update until GUI frame is closed so that user
 		may complete any actions based on current image before image
-		is changed."""
+		is changed, unless update initiated by used with New Wallpaper."""
 
-		if (time() > self._config["nextchangetime"])\
-            and (self._parent.frameops.IsShown() == False):
+		if time() > self._config["nextchange"]\
+            and not self._parent.frameops.IsShown():
 			# Download new image to the executable's directory, and
 			# name it wallpaper.jpg
 			imagedata = netops.DownloadImage()
@@ -58,8 +58,7 @@ class TimerOps(Thread):
 				DisplayImage(imagedata, self._twirlpath)
 			except DisplayError:
 				# Send error to server
-				netops.SendMetadata(consts.DISPLAY_ERROR)
+				netops.SendMetadata(self._config, consts.DISPLAY_ERROR)
 
 			# Update change time
-			self._config["nextchangetime"] =\
-                time() + self._config["changeevery"]
+			self._config["nextchange"] = time() + self._config["changeevery"]

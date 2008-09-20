@@ -24,8 +24,11 @@ PANEL_OPTIONS = 2
 PANEL_ABOUT = 3
 
 # URL listings
-HELP_TASKBAR = "http://www.google.com/search?as_q=taskbar"
-HELP_RATE = "http://www.google.com/search?as_q=ratings"
-HELP_LOGIN = "http://www.google.com/search?as_q=login"
-HELP_OPTIONS = "http://www.google.com/search?as_q=options"
-HELP_ABOUT = "http://www.google.com/search?as_q=aboutpage"
+URL_HELP_TASKBAR = "http://www.google.com/search?as_q=taskbar"
+URL_HELP_RATE = "http://www.google.com/search?as_q=ratings"
+URL_HELP_LOGIN = "http://www.google.com/search?as_q=login"
+URL_HELP_OPTIONS = "http://www.google.com/search?as_q=options"
+URL_HELP_ABOUT = "http://www.google.com/search?as_q=aboutpage"
+URL_REQ_LOGIN = "http://localhost/learn/tloginreq.php"
+URL_REQ_IMAGE = "http://localhost/learn/timagereq.php"
+URL_SEND_META = "http://localhost/learn/tmetadata.php"
