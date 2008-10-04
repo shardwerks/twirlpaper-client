@@ -4,7 +4,7 @@
 
 #-----------------------------------------------------------------------------
 # Name:        frameops.py
-# Purpose:
+# Purpose:    Create and manage GUI
 #
 # Author:      Shultz Wang
 #
@@ -451,9 +451,9 @@ class FrameOps(wx.Frame):
         if (self._configtmp["clientid"] != "00000000000000000000000000000000")\
             and (self._configtmp["rememberme"] == True):
             self.staticTextSignedIn.SetLabel("    You are signed in.")
-            loginname = self._configtmp["login"]
+            username = self._configtmp["username"]
             self.textCtrlLogin.Clear()
-            self.textCtrlLogin.WriteText(loginname)
+            self.textCtrlLogin.WriteText(username)
             self.checkBoxLoginRemember.SetValue(True)
 
         # Set options
@@ -553,7 +553,7 @@ class FrameOps(wx.Frame):
 
     def OnTextCtrlLoginText(self, event):
         """Save login but do not send until user presses Sign In"""
-        self._configtmp["login"] = event.GetString()
+        self._configtmp["username"] = event.GetString()
 
     def OnTextCtrlPasswordText(self, event):
         """Save password but do not send until user presses Sign In"""
@@ -565,7 +565,7 @@ class FrameOps(wx.Frame):
         requests are associated with the correct user.
         Update text on Sign In page based on whether clientid is valid."""
         self._configtmp["clientid"] =\
-            netops.SendLogin(self._configtmp["login"], self._password)
+            netops.SendLogin(self._configtmp["username"], self._password)
         if self._configtmp["clientid"] != "00000000000000000000000000000000":
             self.staticTextSignedIn.SetLabel("    You are signed in.")
             self._config["clientid"] = self._configtmp["clientid"]

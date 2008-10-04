@@ -10,7 +10,7 @@ __copyright__   = "Copyright (c) 2007 Shultz Wang"
 # Library modules
 from hashlib import md5
 from types import UnicodeType
-from urllib import urlopen, urlencode, quote_plus
+from urllib2 import urlopen, HTTPDigestAuthHandler, build_opener, install_opener
 # Project modules
 import consts
 
@@ -84,12 +84,19 @@ def SendMetadata(config, twirlconst):
     except NetError:
         print "cannot connect to internet"
 
-def SendUsername(username, password):
-    # Use METHOD = POST to send username and hashed password to server
-    # and limit return value to 32 characters for protection
-    answer = urlopen(consts.URL_REQ_LOGIN,
-        urlencode({"username":username.encode("utf-8"),
-            "password":md5(password.encode("utf-8")).hexdigest()})
-            ).read()[:32]
+def SendLogin(username, password):
+    # Use HTTP digest authentication
+    authen = HTTPDigestAuthHandler()
+    authen.add_password(realm = consts.REALM,
+        uri = consts.URL_REQ_LOGIN,
+        user = username.encode("utf-8"),
+        passwd = md5(password.encode("utf-8")+consts.REALM).hexdigest())
+    install_opener(build_opener(authen))
+    urlopen(consts.URL_REQ_LOGIN)
+
+    print username
+    print password
+    # Take return value to be client ID, limit return value to 32 characters for protection
+    answer = urlopen(consts.URL_REQ_LOGIN).read()#[:32]
     print answer
     return answer
