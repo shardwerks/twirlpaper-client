@@ -38,7 +38,7 @@ def create(parent, config, twirlpath):
  wxID_FRAMEOPSBUTTONOPTIONSOK, wxID_FRAMEOPSBUTTONRATECANCEL,
  wxID_FRAMEOPSBUTTONRATEHELP, wxID_FRAMEOPSBUTTONRATEOK,
  wxID_FRAMEOPSBUTTONSIGNIN, wxID_FRAMEOPSBUTTONSUBMITTERPAGE,
- wxID_FRAMEOPSCHECKBOXLOGINREMEMBER, wxID_FRAMEOPSCHOICEOPTIONCHANGEEVERY,
+ wxID_FRAMEOPSCHOICEOPTIONCHANGEEVERY,
  wxID_FRAMEOPSCHOICEOPTIONPERCENTUNRATED,
  wxID_FRAMEOPSCHOICEOPTIONRATEDATLEAST, wxID_FRAMEOPSNOTEBOOKAPP,
  wxID_FRAMEOPSPANELABOUT, wxID_FRAMEOPSPANELLOGIN, wxID_FRAMEOPSPANELOPTIONS,
@@ -52,7 +52,7 @@ def create(parent, config, twirlpath):
  wxID_FRAMEOPSTEXTCTRLIMAGEINFO, wxID_FRAMEOPSTEXTCTRLIMAGETAGS,
  wxID_FRAMEOPSTEXTCTRLLOGIN, wxID_FRAMEOPSTEXTCTRLPASSWORD,
  wxID_FRAMEOPSTEXTCTRLSUBSCRIBEDTAGS, wxID_FRAMEOPSTOGGLEBUTTONRATEFLAG,
-] = [wx.NewId() for _init_ctrls in range(48)]
+] = [wx.NewId() for _init_ctrls in range(47)]
 
 class FrameOps(wx.Frame):
 
@@ -203,7 +203,7 @@ class FrameOps(wx.Frame):
 
         self.staticBoxLogin = wx.StaticBox(id=wxID_FRAMEOPSSTATICBOXLOGIN,
               label='Sign In', name='staticBoxLogin', parent=self.panelLogin,
-              pos=wx.Point(8, 8), size=wx.Size(312, 176), style=0)
+              pos=wx.Point(8, 8), size=wx.Size(312, 152), style=0)
 
         self.staticTextLogin = wx.StaticText(id=wxID_FRAMEOPSSTATICTEXTLOGIN,
               label='Username:', name='staticTextLogin', parent=self.panelLogin,
@@ -235,15 +235,6 @@ class FrameOps(wx.Frame):
               pos=wx.Point(128, 112), size=wx.Size(75, 23), style=0)
         self.buttonSignIn.Bind(wx.EVT_BUTTON, self.OnButtonSignInButton,
               id=wxID_FRAMEOPSBUTTONSIGNIN)
-
-        self.checkBoxLoginRemember = wx.CheckBox(id=wxID_FRAMEOPSCHECKBOXLOGINREMEMBER,
-              label='Remember me on this computer',
-              name='checkBoxLoginRemember', parent=self.panelLogin,
-              pos=wx.Point(128, 152), size=wx.Size(176, 13), style=0)
-        self.checkBoxLoginRemember.SetValue(False)
-        self.checkBoxLoginRemember.Bind(wx.EVT_CHECKBOX,
-              self.OnCheckBoxLoginRememberCheckbox,
-              id=wxID_FRAMEOPSCHECKBOXLOGINREMEMBER)
 
         self.staticTextSignedIn = wx.StaticText(id=wxID_FRAMEOPSSTATICTEXTSIGNEDIN,
               label='You are not signed in.', name='staticTextSignedIn',
@@ -448,13 +439,13 @@ class FrameOps(wx.Frame):
         self.textCtrlSubscribedTags.WriteText(subscribed)
 
         # If login still valid, change text on Sign In page
-        if (self._configtmp["clientid"] != "00000000000000000000000000000000")\
-            and (self._configtmp["rememberme"] == True):
+        if (self._configtmp["clientid"] != "00000000000000000000000000000000"):
             self.staticTextSignedIn.SetLabel("    You are signed in.")
-            username = self._configtmp["username"]
-            self.textCtrlLogin.Clear()
-            self.textCtrlLogin.WriteText(username)
-            self.checkBoxLoginRemember.SetValue(True)
+        else:
+            self.staticTextSignedIn.SetLabel("You are not signed in.")
+        username = self._configtmp["username"]
+        self.textCtrlLogin.Clear()
+        self.textCtrlLogin.WriteText(username)
 
         # Set options
         _ratelist = [1, 2, 3, 4, 5]
@@ -572,10 +563,6 @@ class FrameOps(wx.Frame):
             self.textCtrlPassword.Clear()
         else:
             self.staticTextSignedIn.SetLabel("You are not signed in.")
-
-    def OnCheckBoxLoginRememberCheckbox(self, event):
-        """Save remember me setting but do not send until user presses OK"""
-        self._configtmp["rememberme"] = event.IsChecked()
 
     def OnButtonLoginOKButton(self, event):
         """All OK buttons do the same actions --

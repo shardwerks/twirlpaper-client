@@ -4,7 +4,6 @@ Config data is stored as a dictionary
 Default config file is [changed by, max size]:
     "username"      =   "Guest"     Username [FrameOps, 32 chars]
     "clientid"      =   "00000000000000000000000000000000"      From server [FrameOps, 32 chars]
-    "rememberme"    =   False       Store login/clientid [FrameOps, Bool]
     "imageid"       =   0           From server [NetOps, int]
     "nextchange"    =   0.0         Next update time [FrameOps, 32 chars]
     "imagerating"   =   1           Image rating from server [NetOps, int]
@@ -21,7 +20,6 @@ Default config file is [changed by, max size]:
 Unmodified config file:
                         data = {"username":"Guest",
                                 "clientid":"00000000000000000000000000000000",
-                                "rememberme":False,
                                 "imageid":0,
                                 "nextchange":0.0,
                                 "imagerating":1,
@@ -39,7 +37,6 @@ Unmodified config file:
 Modified config file:
             data = {"username":"greatone",
                 "clientid":"00000000000000000000000000001234",
-                "rememberme":True,
                 "imageid":12,
                 "nextchange":0.0,
                 "imagerating":3,
@@ -79,7 +76,6 @@ class ConfigOps(dict):
         if data == None:
             data = {"username":"Twirlguest",
                 "clientid":"00000000000000000000000000001234",
-                "rememberme":True,
                 "imageid":12,
                 "nextchange":0.0,
                 "imagerating":3,
@@ -124,11 +120,7 @@ class ConfigOps(dict):
             fconfig = open(twirlpath + "config.dat","wb")
             try:
                 configtmp = self.copy()
-                if not self["rememberme"]:
-                    configtmp["username"] = "Twirlguest"
-                    configtmp["clientid"] = "00000000000000000000000000000000"
-                configdat = codecops.Encode(configtmp)
-                fconfig.write(configdat)
+                fconfig.write(codecops.Encode(configtmp))
             finally:
                 fconfig.close()
         except IOError:
