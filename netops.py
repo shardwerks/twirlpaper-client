@@ -90,7 +90,8 @@ def SendLogin(username, password):
     authen.add_password(realm = consts.REALM,
         uri = consts.URL_REQ_LOGIN,
         user = username.encode("utf-8"),
-        passwd = md5(password.encode("utf-8")+consts.REALM).hexdigest())
+        passwd = md5(password.encode("utf-8")+username.encode("utf-8")\
+            +consts.REALM).hexdigest())
     install_opener(build_opener(authen))
     urlopen(consts.URL_REQ_LOGIN)
 
