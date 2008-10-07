@@ -72,7 +72,8 @@ class FrameOps(wx.Frame):
         # generated method, don't edit
         wx.Frame.__init__(self, id=wxID_FRAMEOPS, name='FrameOps', parent=prnt,
               pos=wx.Point(331, 208), size=wx.Size(344, 429),
-              style=wx.DEFAULT_FRAME_STYLE, title='Twirlpaper')
+              style=(wx.DEFAULT_FRAME_STYLE & ~wx.RESIZE_BORDER & ~wx.MAXIMIZE_BOX),
+              title='Twirlpaper')
         self.SetClientSize(wx.Size(336, 402))
 
         self.notebookApp = wx.Notebook(id=wxID_FRAMEOPSNOTEBOOKAPP,

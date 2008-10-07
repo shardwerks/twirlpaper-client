@@ -98,6 +98,10 @@ def SendLogin(username, password):
     print username
     print password
     # Take return value to be client ID, limit return value to 32 characters for protection
-    answer = urlopen(consts.URL_REQ_LOGIN).read()#[:32]
+    answer = urlopen(consts.URL_REQ_LOGIN).read()
     print answer
-    return answer
+
+    if (answer[:7] == 'userid=') and answer[7:39].isalnum():
+        return answer[7:39]
+    else:
+        return '00000000000000000000000000000000'
