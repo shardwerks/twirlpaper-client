@@ -440,7 +440,7 @@ class FrameOps(wx.Frame):
         self.textCtrlSubscribedTags.WriteText(subscribed)
 
         # If login still valid, change text on Sign In page
-        if (self._configtmp["clientid"] != "00000000000000000000000000000000"):
+        if (self._configtmp["userid"] != "00000000000000000000000000000000"):
             self.staticTextSignedIn.SetLabel("    You are signed in.")
         else:
             self.staticTextSignedIn.SetLabel("You are not signed in.")
@@ -552,18 +552,20 @@ class FrameOps(wx.Frame):
         self._password = event.GetString()
 
     def OnButtonSignInButton(self, event):
-        """Send login and hashed password to server, get back clientid.
-        Save valid clientid immediately to config so that any image
+        """Send login and hashed password to server, get back userid.
+        Save valid userid immediately to config so that any image
         requests are associated with the correct user.
-        Update text on Sign In page based on whether clientid is valid."""
-        self._configtmp["clientid"] =\
+        Update text on Sign In page based on whether userid is valid."""
+        self._configtmp["userid"] =\
             netops.SendLogin(self._configtmp["username"], self._password)
-        if self._configtmp["clientid"] != "00000000000000000000000000000000":
+        if self._configtmp["userid"] != "00000000000000000000000000000000":
             self.staticTextSignedIn.SetLabel("    You are signed in.")
-            self._config["clientid"] = self._configtmp["clientid"]
             self.textCtrlPassword.Clear()
+            self._config["userid"] = self._configtmp["userid"]
+            self._config.Save(self._twirlpath)
         else:
             self.staticTextSignedIn.SetLabel("You are not signed in.")
+            self.textCtrlPassword.Clear()
 
     def OnButtonLoginOKButton(self, event):
         """All OK buttons do the same actions --
@@ -634,8 +636,15 @@ class FrameOps(wx.Frame):
     def OnButtonOKButton(self):
         """Update and save config, send all metadata to server,
         then hide frame"""
-        if self._config != self._configtmp:
+        meta = {}
+        for key in self._config.keys():
+            if self._config[key] != self._configtmp[key]:
+                meta[key] = self._configtmp[key]                
+        if meta:
             self._config.update(self._configtmp)
             self._config.Save(self._twirlpath)
-            netops.SendMetadata(self._config, consts.ALL_META)
+            meta["username"] = self._config["username"].encode("utf-8")
+            meta["userid"] = self._config["userid"]
+            meta["imageid"] = self._config["imageid"]
+            netops.SendMetadata(meta)
         self.Hide()

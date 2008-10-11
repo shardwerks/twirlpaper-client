@@ -160,31 +160,41 @@ class TaskbarOps(wx.TaskBarIcon):
         """Set config data and send metadata to server"""
         self._config["userrating"] = 1
         self._config.Save(self._twirlpath)
-        netops.SendMetadata(self._config, consts.RATE_1_STAR)
+        netops.SendMetadata({"username":self._config["username"].encode("utf-8"),
+            "userid":self._config["userid"], "imageid":self._config["imageid"],
+            "imagerating":1})
 
     def OnTaskBarRate2Stars(self, event):
         """Set config data and send metadata to server"""
         self._config["userrating"] = 2
         self._config.Save(self._twirlpath)
-        netops.SendMetadata(self._config, consts.RATE_2_STARS)
+        netops.SendMetadata({"username":self._config["username"].encode("utf-8"),
+            "userid":self._config["userid"], "imageid":self._config["imageid"],
+            "imagerating":2})
 
     def OnTaskBarRate3Stars(self, event):
         """Set config data and send metadata to server"""
         self._config["userrating"] = 3
         self._config.Save(self._twirlpath)
-        netops.SendMetadata(self._config, consts.RATE_3_STARS)
+        netops.SendMetadata({"username":self._config["username"].encode("utf-8"),
+            "userid":self._config["userid"], "imageid":self._config["imageid"],
+            "imagerating":3})
 
     def OnTaskBarRate4Stars(self, event):
         """Set config data and send metadata to server"""
         self._config["userrating"] = 4
         self._config.Save(self._twirlpath)
-        netops.SendMetadata(self._config, consts.RATE_4_STARS)
+        netops.SendMetadata({"username":self._config["username"].encode("utf-8"),
+            "userid":self._config["userid"], "imageid":self._config["imageid"],
+            "imagerating":4})
 
     def OnTaskBarRate5Stars(self, event):
         """Set config data and send metadata to server"""
         self._config["userrating"] = 5
         self._config.Save(self._twirlpath)
-        netops.SendMetadata(self._config, consts.RATE_5_STARS)
+        netops.SendMetadata({"username":self._config["username"].encode("utf-8"),
+            "userid":self._config["userid"], "imageid":self._config["imageid"],
+            "imagerating":5})
 
     def OnTaskBarTag(self, event):
         """Open frame to Rate/Tag panel"""
@@ -195,7 +205,9 @@ class TaskbarOps(wx.TaskBarIcon):
         """Toggle config data and send metadata to server"""
         self._config["flagimage"] = not self._config["flagimage"]
         self._config.Save(self._twirlpath)
-        netops.SendMetadata(self._config, consts.FLAG_IMAGE)
+        netops.SendMetadata({"username":self._config["username"].encode("utf-8"),
+            "userid":self._config["userid"], "imageid":self._config["imageid"],
+            "flagimage":self._config["flagimage"]})
 
     def OnTaskBarSubmitter(self, event):
         """Open webbrowser to image URL"""

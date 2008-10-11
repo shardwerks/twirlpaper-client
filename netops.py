@@ -10,6 +10,7 @@ __copyright__   = "Copyright (c) 2007 Shultz Wang"
 # Library modules
 from hashlib import md5
 from types import UnicodeType
+from urllib import urlencode
 from urllib2 import urlopen, HTTPDigestAuthHandler, build_opener, install_opener
 # Project modules
 import consts
@@ -18,13 +19,6 @@ import consts
 import os
 import random
 
-"""
-class NetOps():
-
-        def __init__(self):
-                self._url = ""
-"""
-        # Send request to server
 
 class NetError(Exception):
 	"""Internet connection error
@@ -51,39 +45,16 @@ def DownloadImage():
     return g
 
 
-def SendMetadata(config, twirlconst):
-    # Send username and metadata
-    meta = {"username":config["username"].encode("utf-8"),
-        "clientid":config["clientid"], "imageid":config["imageid"]}
-
-    if twirlconst == consts.FLAG_IMAGE:
-        meta["flagimage"] = True
-    elif twirlconst == consts.RATE_1_STAR:
-        meta["userrating"] = 1
-    elif twirlconst == consts.RATE_2_STARS:
-        meta["userrating"] = 2
-    elif twirlconst == consts.RATE_3_STARS:
-        meta["userrating"] = 3
-    elif twirlconst == consts.RATE_4_STARS:
-        meta["userrating"] = 4
-    elif twirlconst == consts.RATE_5_STARS:
-        meta["userrating"] = 5
-    elif twirlconst == consts.ALL_META:
-        for setting in ["nextchange", "userrating", "flagimage",
-            "ratedatleast", "percentnew", "changeevery"]:
-                meta[setting] = config[setting]
-        meta["subscribedtags"] =\
-            config["subscribedtags"].encode("utf-8")
-
-    elif twirlconst == consts.DISPLAY_ERROR:
-        meta["error"] = "display"
-
+def SendMetadata(meta):
+    # Send metadata
     try:
         print meta
-        #***answer = urlopen(consts.URL_SEND_META, urlencode(quote_plus(meta))).read()
+        answer = urlopen(consts.URL_SEND_META, urlencode(meta)).read()
+        print answer
     except NetError:
-        print "cannot connect to internet"
+        print "Cannot connect to internet"
 
+        
 def SendLogin(username, password):
     # Use HTTP digest authentication
     authen = HTTPDigestAuthHandler()

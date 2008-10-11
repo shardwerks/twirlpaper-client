@@ -3,7 +3,7 @@
 Config data is stored as a dictionary
 Default config file is [changed by, max size]:
     "username"      =   "Guest"     Username [FrameOps, 32 chars]
-    "clientid"      =   "00000000000000000000000000000000"      From server [FrameOps, 32 chars]
+    "userid"        =   "00000000000000000000000000000000"      From server [FrameOps, 32 chars]
     "imageid"       =   0           From server [NetOps, int]
     "nextchange"    =   0.0         Next update time [FrameOps, 32 chars]
     "imagerating"   =   1           Image rating from server [NetOps, int]
@@ -19,7 +19,7 @@ Default config file is [changed by, max size]:
 
 Unmodified config file:
                         data = {"username":"Guest",
-                                "clientid":"00000000000000000000000000000000",
+                                "userid":"00000000000000000000000000000000",
                                 "imageid":0,
                                 "nextchange":0.0,
                                 "imagerating":1,
@@ -36,7 +36,7 @@ Unmodified config file:
 
 Modified config file:
             data = {"username":"greatone",
-                "clientid":"00000000000000000000000000001234",
+                "userid":"00000000000000000000000000001234",
                 "imageid":12,
                 "nextchange":0.0,
                 "imagerating":3,
@@ -75,7 +75,7 @@ class ConfigOps(dict):
     def __init__(self, data=None):
         if data == None:
             data = {"username":"Twirlguest",
-                "clientid":"00000000000000000000000000001234",
+                "userid":"00000000000000000000000000001234",
                 "imageid":12,
                 "nextchange":0.0,
                 "imagerating":3,
