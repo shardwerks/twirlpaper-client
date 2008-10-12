@@ -1,10 +1,10 @@
 """Encode and decode dictionary to and from a string"""
 
 
-__author__              = "Shultz Wang"
-__version__             = "Revision 0.1"
-__date__                = "Tuesday, August 07, 2007 22:59:05"
-__copyright__   = "Copyright (c) 2007 Shultz Wang"
+__author__      = 'Shultz Wang'
+__version__     = 'Revision 0.1'
+__date__        = 'Tuesday, August 07, 2007 22:59:05'
+__copyright__   = 'Copyright (c) 2007 Shultz Wang'
 
 
 # Library modules
@@ -46,5 +46,5 @@ def Decode(dictstr):
         x = pickle.loads(w)
         return x
     except:
-        raise DecodeError("String cannot be decoded")
+        raise DecodeError('String cannot be decoded')
 

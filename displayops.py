@@ -1,10 +1,10 @@
 """Screen display operations"""
 
 
-__author__        = "Shultz Wang"
-__version__        = "Revision 0.1"
-__date__        = "Tuesday, August 07, 2007 22:59:05"
-__copyright__    = "Copyright (c) 2007 Shultz Wang"
+__author__      = 'Shultz Wang'
+__version__     = 'Revision 0.1'
+__date__        = 'Tuesday, August 07, 2007 22:59:05'
+__copyright__   = 'Copyright (c) 2007 Shultz Wang'
 
 
 # Library modules
@@ -65,16 +65,16 @@ def DisplayImage(imagedata, twirlpath):
                 pastex, pastey = ((dispx-resizex)/2, 0)
             pilimage = pilimage.resize((resizex, resizey), Image.ANTIALIAS)
         else:
-            pastex, pastey = ((dispx-resizex)/2, (dispy-resizey)/2)
-        pilblank = Image.new("RGB", (dispx,dispy), 0)
+            pastex, pastey = ((dispx-imagex)/2, (dispy-imagey)/2)
+        pilblank = Image.new('RGB', (dispx,dispy), 0)
         pilblank.paste(pilimage, (pastex,pastey))
-        pilblank.save(twirlpath + "image.bmp")
+        pilblank.save(twirlpath + 'image.bmp')
     except:
-        raise DisplayError("Image cannot be displayed")
+        raise DisplayError('Image cannot be displayed')
 
     # Display image
     SPI_SETDESKWALLPAPER = 20
     SPIF_UPDATEINIFILE = 1        # Change INI file
     SPIF_SENDWININICHANGE = 2    # Notify Windows of INI file change
     windll.user32.SystemParametersInfoA(SPI_SETDESKWALLPAPER, 0,
-        twirlpath + "image.bmp" , SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE)
+        twirlpath + 'image.bmp' , SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE)

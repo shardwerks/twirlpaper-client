@@ -1,10 +1,10 @@
 """Timer operations thread"""
 
 
-__author__        = "Shultz Wang"
-__version__        = "Revision 0.1"
-__date__        = "Tuesday, August 07, 2007 22:59:05"
-__copyright__    = "Copyright (c) 2007 Shultz Wang"
+__author__        = 'Shultz Wang'
+__version__        = 'Revision 0.1'
+__date__        = 'Tuesday, August 07, 2007 22:59:05'
+__copyright__    = 'Copyright (c) 2007 Shultz Wang'
 
 
 # Library modules
@@ -34,6 +34,7 @@ class TimerOps(Thread):
         # the countdown is complete before while-looping again
         while (self._running):
             sleep(1)
+            #self._config['nextchange']=0
             self.TimeCheck()
 
     def Stop(self):
@@ -47,20 +48,32 @@ class TimerOps(Thread):
         may complete any actions based on current image before image
         is changed, unless update initiated by used with New Wallpaper."""
 
-        if time() > self._config["nextchange"]\
+        if time() > self._config['nextchange']\
             and not self._parent.frameops.IsShown():
+            #and not self._parent.taskbarops.IsOpen:
             # Download new image to the executable's directory, and
             # name it wallpaper.jpg
             imagedata = netops.DownloadImage()
+            #imagedata = netops.SendMetadata(consts.URL_REQ_IMAGE,{
+            #        'username':self._config['username'].encode('utf-8'),
+            #        'userid':self._config['userid']})
+            # Parse returned data
+            #self._config.update('imageid' = imagemeta['imageid'],
+            #   'imagerating' = imagemeta['imagerating'],
+            #   'userrating' = imagemeta['userrating'],
+            #   'flagimage' = imagemeta['flagimage'],
+            #   'imageinfo' = imagemeta['imageinfo'],
+            #   ['imageurl'] = imagemeta['imageurl']
+            #   ['imagetags'] = imagemeta['imagetags'])
 
             # Display new image
             try:
                 DisplayImage(imagedata, self._twirlpath)
             except DisplayError:
                 # Send error to server
-                netops.SendMetadata({
-                    "username":self._config["username"].encode("utf-8"),
-                    "userid":self._config["userid"], "err":"disp"})
+                netops.SendMetadata(consts.URL_SEND_META,
+                    {'username':self._config['username'].encode('utf-8'),
+                    'userid':self._config['userid'], 'err':'disp'})
 
             # Update change time
-            self._config["nextchange"] = time() + self._config["changeevery"]
+            self._config['nextchange'] = time() + self._config['changeevery']

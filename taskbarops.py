@@ -62,6 +62,8 @@ class TaskbarOps(wx.TaskBarIcon):
         self._parent = parent
         self._config = config
         self._twirlpath = twirlpath
+        self._imageid_ref = self._config['imageid']
+        self.IsOpen = False
 
         # Set taskbar icon and tooltip
         self.SetIcon(icons.getTwirlIcon(), "Twirlpaper\n"
@@ -130,71 +132,88 @@ class TaskbarOps(wx.TaskBarIcon):
         # Show the flag value
         menu.Check(wxID_TBMENU_FLAG, self._config["flagimage"])
 
+        #Set IsOpen to True to stop wallpaper from changing while taskbar menu open
+        self.IsOpen = True
         return menu
 
 
     def OnTaskBarNewImage(self, event):
         """Initiate new image by setting next change time to 0"""
         self._config["nextchange"] = 0
+        self.IsOpen = False
 
     def OnTaskBarExit(self, event):
         """Destroy taskbar icon then frame"""
+        self.RemoveIcon()
         self.Destroy()
         self._parent.frameops.Destroy()
 
     def OnTaskBarHelp(self, event):
         """Open webbrowser to taskbar help page"""
         webbrowser.open(consts.URL_HELP_TASKBAR)
+        self.IsOpen = False
 
     def OnTaskBarOptions(self, event):
         """Open frame to Options panel"""
         self._parent.frameops.notebookApp.SetSelection(consts.PANEL_OPTIONS)
         self._parent.frameops.OnFrameShow()
+        self.IsOpen = False
 
     def OnTaskBarLogin(self, event):
         """Open frame to Sign In panel"""
         self._parent.frameops.notebookApp.SetSelection(consts.PANEL_LOGIN)
         self._parent.frameops.OnFrameShow()
+        self.IsOpen = False
 
     def OnTaskBarRate1Star(self, event):
         """Set config data and send metadata to server"""
         self._config["userrating"] = 1
         self._config.Save(self._twirlpath)
-        netops.SendMetadata({"username":self._config["username"].encode("utf-8"),
+        netops.SendMetadata(consts.URL_SEND_META,
+            {"username":self._config["username"].encode("utf-8"),
             "userid":self._config["userid"], "imageid":self._config["imageid"],
             "imagerating":1})
+        self.IsOpen = False
 
     def OnTaskBarRate2Stars(self, event):
         """Set config data and send metadata to server"""
         self._config["userrating"] = 2
         self._config.Save(self._twirlpath)
-        netops.SendMetadata({"username":self._config["username"].encode("utf-8"),
+        netops.SendMetadata(consts.URL_SEND_META,
+            {"username":self._config["username"].encode("utf-8"),
             "userid":self._config["userid"], "imageid":self._config["imageid"],
             "imagerating":2})
+        self.IsOpen = False
 
     def OnTaskBarRate3Stars(self, event):
         """Set config data and send metadata to server"""
         self._config["userrating"] = 3
         self._config.Save(self._twirlpath)
-        netops.SendMetadata({"username":self._config["username"].encode("utf-8"),
+        netops.SendMetadata(consts.URL_SEND_META,
+            {"username":self._config["username"].encode("utf-8"),
             "userid":self._config["userid"], "imageid":self._config["imageid"],
             "imagerating":3})
+        self.IsOpen = False
 
     def OnTaskBarRate4Stars(self, event):
         """Set config data and send metadata to server"""
         self._config["userrating"] = 4
         self._config.Save(self._twirlpath)
-        netops.SendMetadata({"username":self._config["username"].encode("utf-8"),
+        netops.SendMetadata(consts.URL_SEND_META,
+            {"username":self._config["username"].encode("utf-8"),
             "userid":self._config["userid"], "imageid":self._config["imageid"],
             "imagerating":4})
+        self.IsOpen = False
 
     def OnTaskBarRate5Stars(self, event):
         """Set config data and send metadata to server"""
         self._config["userrating"] = 5
         self._config.Save(self._twirlpath)
-        netops.SendMetadata({"username":self._config["username"].encode("utf-8"),
+        netops.SendMetadata(consts.URL_SEND_META,
+            {"username":self._config["username"].encode("utf-8"),
             "userid":self._config["userid"], "imageid":self._config["imageid"],
             "imagerating":5})
+        self.IsOpen = False
 
     def OnTaskBarTag(self, event):
         """Open frame to Rate/Tag panel"""
@@ -205,10 +224,13 @@ class TaskbarOps(wx.TaskBarIcon):
         """Toggle config data and send metadata to server"""
         self._config["flagimage"] = not self._config["flagimage"]
         self._config.Save(self._twirlpath)
-        netops.SendMetadata({"username":self._config["username"].encode("utf-8"),
+        netops.SendMetadata(consts.URL_SEND_META,
+            {"username":self._config["username"].encode("utf-8"),
             "userid":self._config["userid"], "imageid":self._config["imageid"],
             "flagimage":self._config["flagimage"]})
+        self.IsOpen = False
 
     def OnTaskBarSubmitter(self, event):
         """Open webbrowser to image URL"""
         webbrowser.open(self._config["imageurl"])
+        self.IsOpen = False

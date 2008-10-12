@@ -1,10 +1,10 @@
 """Internet operations"""
 
 
-__author__              = "Shultz Wang"
-__version__             = "Revision 0.1"
-__date__                = "Tuesday, August 07, 2007 22:59:05"
-__copyright__   = "Copyright (c) 2007 Shultz Wang"
+__author__      = 'Shultz Wang'
+__version__     = 'Revision 0.1'
+__date__        = 'Tuesday, August 07, 2007 22:59:05'
+__copyright__   = 'Copyright (c) 2007 Shultz Wang'
 
 
 # Library modules
@@ -28,7 +28,6 @@ class NetError(Exception):
 
 
 
-#       def DownloadImage(self):
 def DownloadImage():
         # Receive image and metadata
         # save imageid, imagerating, userrating, imageinfo, imageurl, imagetags
@@ -36,8 +35,10 @@ def DownloadImage():
 
         #dummy op
     try:
-        fchoose = random.choice(os.listdir("C:\\Documents and Settings\\New User\\Desktop\\Twirlpaper\\Wallpapers\\Test"))
-        f = open("C:\\Documents and Settings\\New User\\Desktop\\Twirlpaper\\Wallpapers\\Test\\"+fchoose, 'rb')
+        fchoose = random.choice(os.listdir("C:\\Documents and Settings\\New User\\Desktop\\Twirlpaper\\Wallpapers\\JPG"))
+        f = open("C:\\Documents and Settings\\New User\\Desktop\\Twirlpaper\\Wallpapers\\JPG\\"+fchoose, 'rb')
+        #fchoose = random.choice(os.listdir("C:\\Documents and Settings\\New User\\Desktop\\Twirlpaper\\Wallpapers\\Test"))
+        #f = open("C:\\Documents and Settings\\New User\\Desktop\\Twirlpaper\\Wallpapers\\Test\\"+fchoose, 'rb')
         g = f.read()
         f.close()
     except:
@@ -45,14 +46,15 @@ def DownloadImage():
     return g
 
 
-def SendMetadata(meta):
+def SendMetadata(urladdr, meta):
     # Send metadata
     try:
         print meta
-        answer = urlopen(consts.URL_SEND_META, urlencode(meta)).read()
+        answer = urlopen(urladdr, urlencode(meta)).read()
         print answer
+        return answer
     except NetError:
-        print "Cannot connect to internet"
+        print 'Cannot connect to internet'
 
         
 def SendLogin(username, password):
@@ -60,19 +62,15 @@ def SendLogin(username, password):
     authen = HTTPDigestAuthHandler()
     authen.add_password(realm = consts.REALM,
         uri = consts.URL_REQ_LOGIN,
-        user = username.encode("utf-8"),
-        passwd = md5(password.encode("utf-8")+username.encode("utf-8")\
+        user = username.encode('utf-8'),
+        passwd = md5(password.encode('utf-8')+username.encode('utf-8')\
             +consts.REALM).hexdigest())
     install_opener(build_opener(authen))
     urlopen(consts.URL_REQ_LOGIN)
 
     print username
     print password
-    # Take return value to be client ID, limit return value to 32 characters for protection
+    # Take return value to be user ID, limit return value to 32 characters for protection
     answer = urlopen(consts.URL_REQ_LOGIN).read()
     print answer
-
-    if (answer[:7] == 'userid=') and answer[7:39].isalnum():
-        return answer[7:39]
-    else:
-        return '00000000000000000000000000000000'
+    return answer
