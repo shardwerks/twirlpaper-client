@@ -28,36 +28,33 @@ class NetError(Exception):
 
 
 
-def DownloadImage():
-        # Receive image and metadata
-        # save imageid, imagerating, userrating, imageinfo, imageurl, imagetags
-        # return a tmp config so update doesn't collide with user op?
-
-        #dummy op
+def DownloadImage(urladdr):
+    """Receive image from server"""
     try:
-        fchoose = random.choice(os.listdir("C:\\Documents and Settings\\New User\\Desktop\\Twirlpaper\\Wallpapers\\JPG"))
-        f = open("C:\\Documents and Settings\\New User\\Desktop\\Twirlpaper\\Wallpapers\\JPG\\"+fchoose, 'rb')
-        #fchoose = random.choice(os.listdir("C:\\Documents and Settings\\New User\\Desktop\\Twirlpaper\\Wallpapers\\Test"))
-        #f = open("C:\\Documents and Settings\\New User\\Desktop\\Twirlpaper\\Wallpapers\\Test\\"+fchoose, 'rb')
-        g = f.read()
-        f.close()
+        imagedata = urlopen(urladdr)
+        image = imagedata.read()
+        imagedata.close()
     except:
-        raise #Exception("Cannot get files from hard drive")
-    return g
+        raise Exception("Cannot download image")
+    return image
 
 
 def SendMetadata(urladdr, meta):
-    # Send metadata
+    """Generic metadata transmission"""
     try:
         print meta
         answer = urlopen(urladdr, urlencode(meta)).read()
         print answer
-        return answer
+        
+        return ParseMeta(answer)
     except NetError:
         print 'Cannot connect to internet'
 
         
 def SendLogin(username, password):
+    """Authenticate with HTTP Digest Authentication,
+    then receive user ID"""
+
     # Use HTTP digest authentication
     authen = HTTPDigestAuthHandler()
     authen.add_password(realm = consts.REALM,
@@ -73,4 +70,16 @@ def SendLogin(username, password):
     # Take return value to be user ID, limit return value to 32 characters for protection
     answer = urlopen(consts.URL_REQ_LOGIN).read()
     print answer
-    return answer
+    return ParseMeta(answer)
+
+
+def ParseMeta(meta):
+    """Separate returned metadata into dictionary"""
+    lines = meta.split('\r\n')
+    parsed = {}
+    for item in lines:
+        if item != '':
+            parts = item.partition('=')
+            parsed[parts[0]] = parts[2]
+    print parsed
+    return parsed

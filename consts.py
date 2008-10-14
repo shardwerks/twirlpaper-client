@@ -20,7 +20,7 @@ URL_HELP_LOGIN      = 'http://www.google.com/search?as_q=login'
 URL_HELP_OPTIONS    = 'http://www.google.com/search?as_q=options'
 URL_HELP_ABOUT      = 'http://www.google.com/search?as_q=aboutpage'
 URL_REQ_LOGIN       = 'http://localhost/tloginreq.php'
-URL_REQ_IMAGE       = 'http://localhost/timagereq.php'
+URL_REQ_IMAGE       = 'http://localhost/timgreq.php'
 URL_SEND_META       = 'http://localhost/tmetadata.php'
 
 # Misc

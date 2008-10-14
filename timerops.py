@@ -53,18 +53,18 @@ class TimerOps(Thread):
             #and not self._parent.taskbarops.IsOpen:
             # Download new image to the executable's directory, and
             # name it wallpaper.jpg
-            imagedata = netops.DownloadImage()
-            #imagedata = netops.SendMetadata(consts.URL_REQ_IMAGE,{
-            #        'username':self._config['username'].encode('utf-8'),
-            #        'userid':self._config['userid']})
+            imagemeta = netops.SendMetadata(consts.URL_REQ_IMAGE,{
+                    'username':self._config['username'].encode('utf-8'),
+                    'userid':self._config['userid']})
+
             # Parse returned data
-            #self._config.update('imageid' = imagemeta['imageid'],
-            #   'imagerating' = imagemeta['imagerating'],
-            #   'userrating' = imagemeta['userrating'],
-            #   'flagimage' = imagemeta['flagimage'],
-            #   'imageinfo' = imagemeta['imageinfo'],
-            #   ['imageurl'] = imagemeta['imageurl']
-            #   ['imagetags'] = imagemeta['imagetags'])
+            self._config.update({'imageid':imagemeta['imageid'],
+               'imagerating':int(imagemeta['imagerating']),
+               'userrating':int(imagemeta['userrating']),
+               'imageinfo':imagemeta['imageinfo'],
+               'imageurl':imagemeta['imageurl'],
+               'imagetags':imagemeta['imagetags']})
+            imagedata = netops.DownloadImage(imagemeta['image'])
 
             # Display new image
             try:

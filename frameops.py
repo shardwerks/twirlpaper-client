@@ -557,7 +557,7 @@ class FrameOps(wx.Frame):
         requests are associated with the correct user.
         Update text on Sign In page based on whether userid is valid."""
         answer = netops.SendLogin(self._configtmp["username"], self._password)
-        if (answer[:7] == 'userid=') and answer[7:39].isalnum():
+        if answer.has_key('userid') and answer['userid'].isalnum():
             self.staticTextSignedIn.SetLabel("    You are signed in.")
             self.textCtrlPassword.Clear()
             self._config["userid"] = self._configtmp["userid"] = answer[7:39]
@@ -639,7 +639,7 @@ class FrameOps(wx.Frame):
         meta = {}
         for key in self._config.keys():
             if self._config[key] != self._configtmp[key]:
-                meta[key] = self._configtmp[key]                
+                meta[key] = self._configtmp[key]
         if meta:
             # Since if frame open, wallpaper downloads are delayed,
             # the image data is always valid
