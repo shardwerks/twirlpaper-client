@@ -51,7 +51,6 @@ class TaskbarOps(wx.TaskBarIcon):
             id=wxID_TBMENU_RATE4STARS)
         self.Bind(wx.EVT_MENU, self.OnTaskBarRate5Stars,\
             id=wxID_TBMENU_RATE5STARS)
-        self.Bind(wx.EVT_MENU, self.OnTaskBarTag, id=wxID_TBMENU_TAG)
         self.Bind(wx.EVT_MENU, self.OnTaskBarFlag, id=wxID_TBMENU_FLAG)
         self.Bind(wx.EVT_MENU, self.OnTaskBarSubmitter,
             id=wxID_TBMENU_SUBMITTER)
@@ -89,10 +88,6 @@ class TaskbarOps(wx.TaskBarIcon):
         menu.AppendItem(newimageitem)
         
         menu.AppendSubMenu(submenu, "Rate")
-        
-        tagitem = wx.MenuItem(menu, wxID_TBMENU_TAG, "Tag")
-        tagitem.SetBitmap(icons.getTagBitmap())
-        menu.AppendItem(tagitem)
         
         menu.AppendCheckItem(wxID_TBMENU_FLAG, "Flag as Inappropriate")
         
@@ -214,11 +209,6 @@ class TaskbarOps(wx.TaskBarIcon):
             "userid":self._config["userid"], "imageid":self._config["imageid"],
             "imagerating":5})
         self.IsOpen = False
-
-    def OnTaskBarTag(self, event):
-        """Open frame to Rate/Tag panel"""
-        self._parent.frameops.notebookApp.SetSelection(consts.PANEL_RATETAG)
-        self._parent.frameops.OnFrameShow()
 
     def OnTaskBarFlag(self, event):
         """Toggle config data and send metadata to server"""
