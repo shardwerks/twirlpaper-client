@@ -58,22 +58,29 @@ class TimerOps(Thread):
                     'userid':self._config['userid']})
 
             # Parse returned data
-            self._config.update({'imageid':imagemeta['imageid'],
-               'imagerating':int(imagemeta['imagerating']),
-               'userrating':int(imagemeta['userrating']),
-               'imageinfo':imagemeta['imageinfo'],
-               'imageurl':imagemeta['imageurl'],
-               'imagetags':imagemeta['imagetags']})
-            imagedata = netops.DownloadImage(imagemeta['image'])
-
-            # Display new image
             try:
-                DisplayImage(imagedata, self._twirlpath)
-            except DisplayError:
+                self._config.update({'imageid':imagemeta['imageid'],
+                    'imagerating':int(imagemeta['imagerating']),
+                    'userrating':int(imagemeta['userrating']),
+                    'imageinfo':imagemeta['imageinfo'],
+                    'imageurl':imagemeta['imageurl'],
+                    'imagetags':imagemeta['imagetags']})
+                imagedata = netops.DownloadImage(imagemeta['image'])
+                
+                # Display new imag
+                try:
+                    DisplayImage(imagedata, self._twirlpath)
+                except DisplayError:
+                    # Send error to server
+                    netops.SendMetadata(consts.URL_SEND_META,
+                        {'username':self._config['username'].encode('utf-8'),
+                        'userid':self._config['userid'], 'err':'disp'})
+                        
+            except:
                 # Send error to server
                 netops.SendMetadata(consts.URL_SEND_META,
                     {'username':self._config['username'].encode('utf-8'),
-                    'userid':self._config['userid'], 'err':'disp'})
+                    'userid':self._config['userid'], 'err':'req'})
 
             # Update change time
             self._config['nextchange'] = time() + self._config['changeevery']

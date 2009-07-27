@@ -20,14 +20,6 @@ import os
 import random
 
 
-class NetError(Exception):
-	"""Internet connection error
-
-	This exception does nothing"""
-	pass
-
-
-
 def DownloadImage(urladdr):
     """Receive image from server"""
     try:
@@ -47,7 +39,7 @@ def SendMetadata(urladdr, meta):
         print answer
         
         return ParseMeta(answer)
-    except NetError:
+    except:
         print 'Cannot connect to internet'
 
         

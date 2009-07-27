@@ -44,15 +44,13 @@ def create(parent, config, twirlpath):
  wxID_FRAMEOPSPANELABOUT, wxID_FRAMEOPSPANELLOGIN, wxID_FRAMEOPSPANELOPTIONS,
  wxID_FRAMEOPSPANELRATE, wxID_FRAMEOPSSTATICBOXABOUT,
  wxID_FRAMEOPSSTATICBOXLOGIN, wxID_FRAMEOPSSTATICBOXOPTIONS,
- wxID_FRAMEOPSSTATICBOXRATE, wxID_FRAMEOPSSTATICBOXTAGS,
+ wxID_FRAMEOPSSTATICBOXRATE,
  wxID_FRAMEOPSSTATICTEXTCHANGEEVERY, wxID_FRAMEOPSSTATICTEXTLOGIN,
  wxID_FRAMEOPSSTATICTEXTPASSWORD, wxID_FRAMEOPSSTATICTEXTPERCENTUNRATED,
  wxID_FRAMEOPSSTATICTEXTRATEDATLEAST, wxID_FRAMEOPSSTATICTEXTSIGNEDIN,
- wxID_FRAMEOPSSTATICTEXTSUBSCRIBEDTAGS, wxID_FRAMEOPSSTATICTEXTIMAGETAGS,
- wxID_FRAMEOPSTEXTCTRLIMAGEINFO, wxID_FRAMEOPSTEXTCTRLIMAGETAGS,
- wxID_FRAMEOPSTEXTCTRLLOGIN, wxID_FRAMEOPSTEXTCTRLPASSWORD,
- wxID_FRAMEOPSTEXTCTRLSUBSCRIBEDTAGS, wxID_FRAMEOPSTOGGLEBUTTONRATEFLAG,
-] = [wx.NewId() for _init_ctrls in range(47)]
+ wxID_FRAMEOPSTEXTCTRLIMAGEINFO, wxID_FRAMEOPSTOGGLEBUTTONRATEFLAG,
+ wxID_FRAMEOPSTEXTCTRLLOGIN, wxID_FRAMEOPSTEXTCTRLPASSWORD
+] = [wx.NewId() for _init_ctrls in range(42)]
 
 class FrameOps(wx.Frame):
 
@@ -151,35 +149,6 @@ class FrameOps(wx.Frame):
               self.OnButtonSubmitterPageButton,
               id=wxID_FRAMEOPSBUTTONSUBMITTERPAGE)
 
-        self.staticBoxTags = wx.StaticBox(id=wxID_FRAMEOPSSTATICBOXTAGS,
-              label='Tags', name='staticBoxTags', parent=self.panelRate,
-              pos=wx.Point(8, 184), size=wx.Size(312, 144), style=0)
-
-        self.staticTextImageTags = wx.StaticText(id=wxID_FRAMEOPSSTATICTEXTIMAGETAGS,
-              label='  Image Tags:', name='staticTextImageTags',
-              parent=self.panelRate, pos=wx.Point(24, 224), size=wx.Size(66,
-              13), style=0)
-
-        self.textCtrlImageTags = wx.TextCtrl(id=wxID_FRAMEOPSTEXTCTRLIMAGETAGS,
-              name='textCtrlImageTags', parent=self.panelRate, pos=wx.Point(104,
-              208), size=wx.Size(200, 48),
-              style=wx.TE_MULTILINE | wx.TE_READONLY, value='')
-        self.textCtrlImageTags.SetMaxLength(128)
-
-        self.staticTextSubscribedTags = wx.StaticText(id=wxID_FRAMEOPSSTATICTEXTSUBSCRIBEDTAGS,
-              label='Subscribed Tags:', name='staticTextSubscribedTags',
-              parent=self.panelRate, pos=wx.Point(16, 280), size=wx.Size(82,
-              13), style=0)
-
-        self.textCtrlSubscribedTags = wx.TextCtrl(id=wxID_FRAMEOPSTEXTCTRLSUBSCRIBEDTAGS,
-              name='textCtrlSubscribedTags', parent=self.panelRate,
-              pos=wx.Point(104, 264), size=wx.Size(200, 48),
-              style=wx.TE_MULTILINE, value='')
-        self.textCtrlSubscribedTags.SetMaxLength(128)
-        self.textCtrlSubscribedTags.Bind(wx.EVT_TEXT,
-              self.OnTextCtrlSubscribedTagsText,
-              id=wxID_FRAMEOPSTEXTCTRLSUBSCRIBEDTAGS)
-
         self.buttonRateOK = wx.Button(id=wxID_FRAMEOPSBUTTONRATEOK, label='OK',
               name='buttonRateOK', parent=self.panelRate, pos=wx.Point(24, 344),
               size=wx.Size(75, 23), style=0)
@@ -204,42 +173,42 @@ class FrameOps(wx.Frame):
 
         self.staticBoxLogin = wx.StaticBox(id=wxID_FRAMEOPSSTATICBOXLOGIN,
               label='Sign In', name='staticBoxLogin', parent=self.panelLogin,
-              pos=wx.Point(8, 8), size=wx.Size(312, 152), style=0)
+              pos=wx.Point(8, 8), size=wx.Size(312, 168), style=0)
 
         self.staticTextLogin = wx.StaticText(id=wxID_FRAMEOPSSTATICTEXTLOGIN,
               label='Username:', name='staticTextLogin', parent=self.panelLogin,
-              pos=wx.Point(48, 40), size=wx.Size(52, 13), style=0)
+              pos=wx.Point(48, 32), size=wx.Size(52, 13), style=0)
         self.staticTextLogin.SetFont(wx.Font(8, wx.SWISS, wx.NORMAL, wx.NORMAL,
               False, 'MS Shell Dlg 2'))
 
         self.textCtrlLogin = wx.TextCtrl(id=wxID_FRAMEOPSTEXTCTRLLOGIN,
               name='textCtrlLogin', parent=self.panelLogin, pos=wx.Point(128,
-              40), size=wx.Size(168, 21), style=0, value='')
+              32), size=wx.Size(168, 21), style=0, value='')
         self.textCtrlLogin.SetMaxLength(32)
         self.textCtrlLogin.Bind(wx.EVT_TEXT, self.OnTextCtrlLoginText,
               id=wxID_FRAMEOPSTEXTCTRLLOGIN)
 
         self.staticTextPassword = wx.StaticText(id=wxID_FRAMEOPSSTATICTEXTPASSWORD,
               label=' Password:', name='staticTextPassword',
-              parent=self.panelLogin, pos=wx.Point(48, 72), size=wx.Size(53,
+              parent=self.panelLogin, pos=wx.Point(48, 64), size=wx.Size(53,
               13), style=0)
 
         self.textCtrlPassword = wx.TextCtrl(id=wxID_FRAMEOPSTEXTCTRLPASSWORD,
               name='textCtrlPassword', parent=self.panelLogin, pos=wx.Point(128,
-              72), size=wx.Size(168, 21), style=wx.TE_PASSWORD, value='')
+              64), size=wx.Size(168, 21), style=wx.TE_PASSWORD, value='')
         self.textCtrlPassword.SetMaxLength(32)
         self.textCtrlPassword.Bind(wx.EVT_TEXT, self.OnTextCtrlPasswordText,
               id=wxID_FRAMEOPSTEXTCTRLPASSWORD)
 
         self.buttonSignIn = wx.Button(id=wxID_FRAMEOPSBUTTONSIGNIN,
               label='Sign In', name='buttonSignIn', parent=self.panelLogin,
-              pos=wx.Point(128, 112), size=wx.Size(75, 23), style=0)
+              pos=wx.Point(128, 96), size=wx.Size(75, 23), style=0)
         self.buttonSignIn.Bind(wx.EVT_BUTTON, self.OnButtonSignInButton,
               id=wxID_FRAMEOPSBUTTONSIGNIN)
 
         self.staticTextSignedIn = wx.StaticText(id=wxID_FRAMEOPSSTATICTEXTSIGNEDIN,
               label='You are not signed in.', name='staticTextSignedIn',
-              parent=self.panelLogin, pos=wx.Point(88, 208), size=wx.Size(163,
+              parent=self.panelLogin, pos=wx.Point(88, 136), size=wx.Size(163,
               18), style=0)
         self.staticTextSignedIn.SetFont(wx.Font(11, wx.SWISS, wx.NORMAL,
               wx.BOLD, False, 'MS Shell Dlg 2'))
@@ -270,18 +239,18 @@ class FrameOps(wx.Frame):
         self.staticBoxOptions = wx.StaticBox(id=wxID_FRAMEOPSSTATICBOXOPTIONS,
               label='Display Options', name='staticBoxOptions',
               parent=self.panelOptions, pos=wx.Point(8, 8), size=wx.Size(312,
-              136), style=0)
+              168), style=0)
 
         self.staticTextRatedAtLeast = wx.StaticText(id=wxID_FRAMEOPSSTATICTEXTRATEDATLEAST,
               label='Display images rated at least:',
               name='staticTextRatedAtLeast', parent=self.panelOptions,
-              pos=wx.Point(40, 40), size=wx.Size(142, 13), style=0)
+              pos=wx.Point(40, 48), size=wx.Size(142, 13), style=0)
 
         self.choiceOptionRatedAtLeast = wx.Choice(choices=["1 Star", "2 Stars",
               "3 Stars", "4 Stars", "5 Stars"],
               id=wxID_FRAMEOPSCHOICEOPTIONRATEDATLEAST,
               name='choiceOptionRatedAtLeast', parent=self.panelOptions,
-              pos=wx.Point(200, 40), size=wx.Size(80, 21), style=0)
+              pos=wx.Point(200, 48), size=wx.Size(80, 21), style=0)
         self.choiceOptionRatedAtLeast.SetStringSelection('')
         self.choiceOptionRatedAtLeast.SetSelection(0)
         self.choiceOptionRatedAtLeast.Bind(wx.EVT_CHOICE,
@@ -291,12 +260,12 @@ class FrameOps(wx.Frame):
         self.staticTextPercentUnrated = wx.StaticText(id=wxID_FRAMEOPSSTATICTEXTPERCENTUNRATED,
               label=' Percentage of unrated images:',
               name='staticTextPercentUnrated', parent=self.panelOptions,
-              pos=wx.Point(32, 72), size=wx.Size(152, 13), style=0)
+              pos=wx.Point(32, 80), size=wx.Size(152, 13), style=0)
 
         self.choiceOptionPercentUnrated = wx.Choice(choices=["5%", "10%", "20%",
               "50%", "75%", "100%"], id=wxID_FRAMEOPSCHOICEOPTIONPERCENTUNRATED,
               name='choiceOptionPercentUnrated', parent=self.panelOptions,
-              pos=wx.Point(200, 72), size=wx.Size(80, 21), style=0)
+              pos=wx.Point(200, 80), size=wx.Size(80, 21), style=0)
         self.choiceOptionPercentUnrated.SetSelection(2)
         self.choiceOptionPercentUnrated.Bind(wx.EVT_CHOICE,
               self.OnChoiceOptionPercentUnratedChoice,
@@ -304,7 +273,7 @@ class FrameOps(wx.Frame):
 
         self.staticTextChangeEvery = wx.StaticText(id=wxID_FRAMEOPSSTATICTEXTCHANGEEVERY,
               label='Change image every:', name='staticTextChangeEvery',
-              parent=self.panelOptions, pos=wx.Point(80, 104), size=wx.Size(103,
+              parent=self.panelOptions, pos=wx.Point(80, 112), size=wx.Size(103,
               13), style=0)
 
         self.choiceOptionChangeEvery = wx.Choice(choices=["15 minutes",
@@ -312,7 +281,7 @@ class FrameOps(wx.Frame):
               "2 days", "4 days", "1 week"],
               id=wxID_FRAMEOPSCHOICEOPTIONCHANGEEVERY,
               name='choiceOptionChangeEvery', parent=self.panelOptions,
-              pos=wx.Point(200, 104), size=wx.Size(80, 21), style=0)
+              pos=wx.Point(200, 112), size=wx.Size(80, 21), style=0)
         self.choiceOptionChangeEvery.SetStringSelection('')
         self.choiceOptionChangeEvery.SetSelection(3)
         self.choiceOptionChangeEvery.Bind(wx.EVT_CHOICE,
@@ -347,7 +316,7 @@ class FrameOps(wx.Frame):
         self.staticBoxAbout = wx.StaticBox(id=wxID_FRAMEOPSSTATICBOXABOUT,
               label='About Twirlpaper', name='staticBoxAbout',
               parent=self.panelAbout, pos=wx.Point(8, 8), size=wx.Size(312,
-              320), style=0)
+              168), style=0)
 
         self.buttonAboutOK = wx.Button(id=wxID_FRAMEOPSBUTTONABOUTOK,
               label='OK', name='buttonAboutOK', parent=self.panelAbout,
@@ -431,13 +400,6 @@ class FrameOps(wx.Frame):
         # Set image info
         self.textCtrlImageInfo.Clear()
         self.textCtrlImageInfo.WriteText(self._configtmp["imageinfo"])
-
-        # Set tags
-        self.textCtrlImageTags.Clear()
-        self.textCtrlImageTags.WriteText(self._configtmp["imagetags"])
-        subscribed = self._configtmp["subscribedtags"]
-        self.textCtrlSubscribedTags.Clear()
-        self.textCtrlSubscribedTags.WriteText(subscribed)
 
         # If login still valid, change text on Sign In page
         if (self._configtmp["userid"] != "00000000000000000000000000000000"):
@@ -525,10 +487,6 @@ class FrameOps(wx.Frame):
     def OnButtonSubmitterPageButton(self, event):
         """Open webbrowser to image URL"""
         webbrowser.open(self._configtmp["imageurl"])
-
-    def OnTextCtrlSubscribedTagsText(self, event):
-        """Save user tags but do not send until user presses OK"""
-        self._configtmp["subscribedtags"] = event.GetString()
 
     def OnButtonRateOKButton(self, event):
         """All OK buttons do the same actions --

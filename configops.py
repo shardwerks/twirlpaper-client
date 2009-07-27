@@ -11,8 +11,6 @@ Default config file is [changed by, max size]:
     'flagimage'     =   False       Image appropriateness flag [FrameOps, Bool]
     'imageinfo'     =   ''          Image info from server [NetOps, 128 chars]
     'imageurl'      =   ''          Image URL from server [NetOps, 128 chars]
-    'imagetags'     =   ''          Image tags from submmitter [NetOps, 128 chars]
-    'subscribedtags'=   ''          Tags subscribed to by user [FrameOps, 128 chars]
     'ratedatleast'  =   1           Minimum image rating [FrameOps, int]
     'percentnew'    =   20          Percentage image unrated by user [FrameOps, int]
     'changeevery'   =   3600        Time between updates [FrameOps, int]
@@ -27,8 +25,6 @@ Unmodified config file:
                                 'flagimage':False,
                                 'imageinfo':'',
                                 'imageurl':'',
-                                'imagetags':'',
-                                'subscribedtags':'',
                                 'ratedatleast':1,
                                 'percentnew':20,
                                 'changeevery':3600,
@@ -44,8 +40,6 @@ Modified config file:
                 'flagimage':False,
                 'imageinfo':'Submitted By: Dmitri,\nLicense: Public Domain',
                 'imageurl':'http://www.google.com/search?as_q=wallpaper',
-                'imagetags':'surfer tide arms weird gogo jumping hot scorch sun waves sand beach slow fast sleep swim bikini bounce bop',
-                'subscribedtags':'run skip hop dance twirl',
                 'ratedatleast':1,
                 'percentnew':20,
                 'changeevery':3600,
@@ -83,8 +77,6 @@ class ConfigOps(dict):
                 'flagimage':False,
                 'imageinfo':'Submitted By: Dmitri,\nLicense: Public Domain',
                 'imageurl':'http://www.google.com/search?as_q=wallpaper',
-                'imagetags':'surfer tide arms weird gogo jumping hot scorch sun waves sand beach slow fast sleep swim bikini bounce bop',
-                'subscribedtags':'run skip hop dance twirl',
                 'ratedatleast':1,
                 'percentnew':20,
                 'changeevery':3600,
