@@ -4,8 +4,8 @@
 
 # Library modules
 import wx
-import os
-import sys
+from os.path import dirname
+from sys import getfilesystemencoding, executable
 # Project modules
 import icons
 import frameops
@@ -26,9 +26,8 @@ class BoaApp(wx.App):
             wx.SIMPLE_BORDER | wx.FRAME_NO_TASKBAR | wx.STAY_ON_TOP)
 
         # Get executable's path
-        self._twirlpath = os.path.dirname(unicode(sys.executable,
-            sys.getfilesystemencoding( )))
-        print 'twirlpath is' + self._twirlpath
+        self._twirlpath = dirname(unicode(executable, getfilesystemencoding()))
+        print 'twirlpath is ' + self._twirlpath
         #self._twirlpath = 'C:\\Documents and Settings\\New User\\Desktop\\Twirlpaper\\'
 
         # Start config

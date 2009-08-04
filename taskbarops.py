@@ -1,15 +1,15 @@
 """Taskbar icon operations"""
 
 #-----------------------------------------------------------------------------
-# Name:        taskbarops.py
-# Purpose:     
+# Name:		taskbarops.py
+# Purpose:	 
 #
-# Author:      Shultz Wang
+# Author:	  Shultz Wang
 #
-# Created:     2007/08/17
-# RCS-ID:      $Id: taskbarops.py $
+# Created:	 2007/08/17
+# RCS-ID:	  $Id: taskbarops.py $
 # Copyright:   (c) 2007
-# Licence:     <your licence>
+# Licence:	 <your licence>
 #-----------------------------------------------------------------------------
 
 
@@ -31,195 +31,195 @@ wxID_TBMENU_RATE5STARS, wxID_TBMENU_FLAG, wxID_TBMENU_SUBMITTER
 
 class TaskbarOps(wx.TaskBarIcon):
 
-    def _init_ctrls(self):
-        """Initialize taskbar icon controls - click response, menu"""
-        wx.TaskBarIcon.__init__(self)
-        self.Bind(wx.EVT_TASKBAR_LEFT_DCLICK, self.OnTaskBarNewImage)
-        self.Bind(wx.EVT_MENU, self.OnTaskBarNewImage, id=wxID_TBMENU_NEWIMAGE)
-        self.Bind(wx.EVT_MENU, self.OnTaskBarExit, id=wxID_TBMENU_EXIT)
-        self.Bind(wx.EVT_MENU, self.OnTaskBarHelp, id=wxID_TBMENU_HELP)
-        self.Bind(wx.EVT_MENU, self.OnTaskBarOptions, id=wxID_TBMENU_OPTIONS)
-        self.Bind(wx.EVT_MENU, self.OnTaskBarLogin, id=wxID_TBMENU_LOGIN)
-        self.Bind(wx.EVT_MENU, self.OnTaskBarRate1Star,\
-            id=wxID_TBMENU_RATE1STAR)
-        self.Bind(wx.EVT_MENU, self.OnTaskBarRate2Stars,\
-            id=wxID_TBMENU_RATE2STARS)
-        self.Bind(wx.EVT_MENU, self.OnTaskBarRate3Stars,\
-            id=wxID_TBMENU_RATE3STARS)
-        self.Bind(wx.EVT_MENU, self.OnTaskBarRate4Stars,\
-            id=wxID_TBMENU_RATE4STARS)
-        self.Bind(wx.EVT_MENU, self.OnTaskBarRate5Stars,\
-            id=wxID_TBMENU_RATE5STARS)
-        self.Bind(wx.EVT_MENU, self.OnTaskBarFlag, id=wxID_TBMENU_FLAG)
-        self.Bind(wx.EVT_MENU, self.OnTaskBarSubmitter,
-            id=wxID_TBMENU_SUBMITTER)
+	def _init_ctrls(self):
+		"""Initialize taskbar icon controls - click response, menu"""
+		wx.TaskBarIcon.__init__(self)
+		self.Bind(wx.EVT_TASKBAR_LEFT_DCLICK, self.OnTaskBarNewImage)
+		self.Bind(wx.EVT_MENU, self.OnTaskBarNewImage, id=wxID_TBMENU_NEWIMAGE)
+		self.Bind(wx.EVT_MENU, self.OnTaskBarExit, id=wxID_TBMENU_EXIT)
+		self.Bind(wx.EVT_MENU, self.OnTaskBarHelp, id=wxID_TBMENU_HELP)
+		self.Bind(wx.EVT_MENU, self.OnTaskBarOptions, id=wxID_TBMENU_OPTIONS)
+		self.Bind(wx.EVT_MENU, self.OnTaskBarLogin, id=wxID_TBMENU_LOGIN)
+		self.Bind(wx.EVT_MENU, self.OnTaskBarRate1Star,\
+			id=wxID_TBMENU_RATE1STAR)
+		self.Bind(wx.EVT_MENU, self.OnTaskBarRate2Stars,\
+			id=wxID_TBMENU_RATE2STARS)
+		self.Bind(wx.EVT_MENU, self.OnTaskBarRate3Stars,\
+			id=wxID_TBMENU_RATE3STARS)
+		self.Bind(wx.EVT_MENU, self.OnTaskBarRate4Stars,\
+			id=wxID_TBMENU_RATE4STARS)
+		self.Bind(wx.EVT_MENU, self.OnTaskBarRate5Stars,\
+			id=wxID_TBMENU_RATE5STARS)
+		self.Bind(wx.EVT_MENU, self.OnTaskBarFlag, id=wxID_TBMENU_FLAG)
+		self.Bind(wx.EVT_MENU, self.OnTaskBarSubmitter,
+			id=wxID_TBMENU_SUBMITTER)
 
 
-    def __init__(self, parent, config, twirlpath):
-        self._init_ctrls()
-        self._parent = parent
-        self._config = config
-        self._twirlpath = twirlpath
-        self._imageid_ref = self._config['imageid']
-        self.IsOpen = False
+	def __init__(self, parent, config, twirlpath):
+		self._init_ctrls()
+		self._parent = parent
+		self._config = config
+		self._twirlpath = twirlpath
+		self._imageid_ref = self._config['imageid']
+		self.IsOpen = False
 
-        # Set taskbar icon and tooltip
-        self.SetIcon(icons.getTwirlIcon(), "Twirlpaper\n"
-            + "  Double click: new wallpaper\n"
-            + "  Right click: options")
-
-
-    def CreatePopupMenu(self):
-        """This method is called by the base class when it needs to popup
-        the menu for the default EVT_RIGHT_DOWN event.  Just create
-        the menu how you want it and return it from this function,
-        the base class takes care of the rest."""
-        submenu = wx.Menu()
-        submenu.AppendRadioItem(wxID_TBMENU_RATE1STAR, "1 Star")
-        submenu.AppendRadioItem(wxID_TBMENU_RATE2STARS, "2 Stars")
-        submenu.AppendRadioItem(wxID_TBMENU_RATE3STARS, "3 Stars")
-        submenu.AppendRadioItem(wxID_TBMENU_RATE4STARS, "4 Stars")
-        submenu.AppendRadioItem(wxID_TBMENU_RATE5STARS, "5 Stars")
-        menu = wx.Menu()
-        
-        newimageitem = wx.MenuItem(menu, wxID_TBMENU_NEWIMAGE, "New wallpaper")
-        newimageitem.SetBitmap(icons.getTwirlBitmap())
-        menu.AppendItem(newimageitem)
-        
-        menu.AppendSubMenu(submenu, "Rate")
-        
-        menu.AppendCheckItem(wxID_TBMENU_FLAG, "Flag as Inappropriate")
-        
-        submitteritem = wx.MenuItem(menu,\
-            wxID_TBMENU_SUBMITTER, "Wallpaper Homepage")
-        submitteritem.SetBitmap(icons.getLinkBitmap())
-        menu.AppendItem(submitteritem)
-        
-        menu.AppendSeparator()
-        
-        loginitem = wx.MenuItem(menu, wxID_TBMENU_LOGIN, "Sign in")
-        loginitem.SetBitmap(icons.getUserBitmap())
-        menu.AppendItem(loginitem)
-        
-        optionsitem = wx.MenuItem(menu, wxID_TBMENU_OPTIONS, "Options")
-        optionsitem.SetBitmap(icons.getWrenchBitmap())
-        menu.AppendItem(optionsitem)
-        
-        helpitem = wx.MenuItem(menu, wxID_TBMENU_HELP, "Help")
-        helpitem.SetBitmap(icons.getHelpBitmap())
-        menu.AppendItem(helpitem)
-        
-        menu.AppendSeparator()
-        menu.Append(wxID_TBMENU_EXIT, "Exit")
-
-        # Show the user rating, if user has not rated the image, show
-        # the image rating
-        radiolist = [None, wxID_TBMENU_RATE1STAR, wxID_TBMENU_RATE2STARS,
-            wxID_TBMENU_RATE3STARS, wxID_TBMENU_RATE4STARS,
-            wxID_TBMENU_RATE5STARS]
-        if self._config["userrating"] == 0:
-            checked = radiolist[self._config["imagerating"]]
-        else:
-            checked = radiolist[self._config["userrating"]]
-        submenu.Check(checked, True)
-
-        # Show the flag value
-        menu.Check(wxID_TBMENU_FLAG, self._config["flagimage"])
-
-        #Set IsOpen to True to stop wallpaper from changing while taskbar menu open
-        self.IsOpen = True
-        return menu
+		# Set taskbar icon and tooltip
+		self.SetIcon(icons.getTwirlIcon(), "Twirlpaper\n"
+			+ "  Double click: new wallpaper\n"
+			+ "  Right click: options")
 
 
-    def OnTaskBarNewImage(self, event):
-        """Initiate new image by setting next change time to 0"""
-        self._config["nextchange"] = 0
-        self.IsOpen = False
+	def CreatePopupMenu(self):
+		"""This method is called by the base class when it needs to popup
+		the menu for the default EVT_RIGHT_DOWN event.  Just create
+		the menu how you want it and return it from this function,
+		the base class takes care of the rest."""
+		submenu = wx.Menu()
+		submenu.AppendRadioItem(wxID_TBMENU_RATE1STAR, "1 Star")
+		submenu.AppendRadioItem(wxID_TBMENU_RATE2STARS, "2 Stars")
+		submenu.AppendRadioItem(wxID_TBMENU_RATE3STARS, "3 Stars")
+		submenu.AppendRadioItem(wxID_TBMENU_RATE4STARS, "4 Stars")
+		submenu.AppendRadioItem(wxID_TBMENU_RATE5STARS, "5 Stars")
+		menu = wx.Menu()
+		
+		newimageitem = wx.MenuItem(menu, wxID_TBMENU_NEWIMAGE, "New wallpaper")
+		newimageitem.SetBitmap(icons.getTwirlBitmap())
+		menu.AppendItem(newimageitem)
+		
+		menu.AppendSubMenu(submenu, "Rate")
+		
+		menu.AppendCheckItem(wxID_TBMENU_FLAG, "Flag as Inappropriate")
+		
+		submitteritem = wx.MenuItem(menu,\
+			wxID_TBMENU_SUBMITTER, "Wallpaper Homepage")
+		submitteritem.SetBitmap(icons.getLinkBitmap())
+		menu.AppendItem(submitteritem)
+		
+		menu.AppendSeparator()
+		
+		loginitem = wx.MenuItem(menu, wxID_TBMENU_LOGIN, "Sign in")
+		loginitem.SetBitmap(icons.getUserBitmap())
+		menu.AppendItem(loginitem)
+		
+		optionsitem = wx.MenuItem(menu, wxID_TBMENU_OPTIONS, "Options")
+		optionsitem.SetBitmap(icons.getWrenchBitmap())
+		menu.AppendItem(optionsitem)
+		
+		helpitem = wx.MenuItem(menu, wxID_TBMENU_HELP, "Help")
+		helpitem.SetBitmap(icons.getHelpBitmap())
+		menu.AppendItem(helpitem)
+		
+		menu.AppendSeparator()
+		menu.Append(wxID_TBMENU_EXIT, "Exit")
 
-    def OnTaskBarExit(self, event):
-        """Destroy taskbar icon then frame"""
-        self.RemoveIcon()
-        self.Destroy()
-        self._parent.frameops.Destroy()
+		# Show the user rating, if user has not rated the image, show
+		# the image rating
+		radiolist = [wxID_TBMENU_RATE1STAR, wxID_TBMENU_RATE1STAR,
+			wxID_TBMENU_RATE2STARS,	wxID_TBMENU_RATE3STARS,
+			wxID_TBMENU_RATE4STARS, wxID_TBMENU_RATE5STARS]
+		if self._config["userrating"] == 0:
+			checked = radiolist[self._config["imagerating"]]
+		else:
+			checked = radiolist[self._config["userrating"]]
+		submenu.Check(checked, True)
 
-    def OnTaskBarHelp(self, event):
-        """Open webbrowser to taskbar help page"""
-        webbrowser.open(consts.URL_HELP_TASKBAR)
-        self.IsOpen = False
+		# Show the flag value
+		menu.Check(wxID_TBMENU_FLAG, self._config["flagimage"])
 
-    def OnTaskBarOptions(self, event):
-        """Open frame to Options panel"""
-        self._parent.frameops.notebookApp.SetSelection(consts.PANEL_OPTIONS)
-        self._parent.frameops.OnFrameShow()
-        self.IsOpen = False
+		#Set IsOpen to True to stop wallpaper from changing while taskbar menu open
+		self.IsOpen = True
+		return menu
 
-    def OnTaskBarLogin(self, event):
-        """Open frame to Sign In panel"""
-        self._parent.frameops.notebookApp.SetSelection(consts.PANEL_LOGIN)
-        self._parent.frameops.OnFrameShow()
-        self.IsOpen = False
 
-    def OnTaskBarRate1Star(self, event):
-        """Set config data and send metadata to server"""
-        self._config["userrating"] = 1
-        self._config.Save(self._twirlpath)
-        netops.SendMetadata(consts.URL_SEND_META,
-            {"username":self._config["username"].encode("utf-8"),
-            "userid":self._config["userid"], "imageid":self._config["imageid"],
-            "imagerating":1})
-        self.IsOpen = False
+	def OnTaskBarNewImage(self, event):
+		"""Initiate new image by setting next change time to 0"""
+		self._config["nextchange"] = 0
+		self.IsOpen = False
 
-    def OnTaskBarRate2Stars(self, event):
-        """Set config data and send metadata to server"""
-        self._config["userrating"] = 2
-        self._config.Save(self._twirlpath)
-        netops.SendMetadata(consts.URL_SEND_META,
-            {"username":self._config["username"].encode("utf-8"),
-            "userid":self._config["userid"], "imageid":self._config["imageid"],
-            "imagerating":2})
-        self.IsOpen = False
+	def OnTaskBarExit(self, event):
+		"""Destroy taskbar icon then frame"""
+		self.RemoveIcon()
+		self.Destroy()
+		self._parent.frameops.Destroy()
 
-    def OnTaskBarRate3Stars(self, event):
-        """Set config data and send metadata to server"""
-        self._config["userrating"] = 3
-        self._config.Save(self._twirlpath)
-        netops.SendMetadata(consts.URL_SEND_META,
-            {"username":self._config["username"].encode("utf-8"),
-            "userid":self._config["userid"], "imageid":self._config["imageid"],
-            "imagerating":3})
-        self.IsOpen = False
+	def OnTaskBarHelp(self, event):
+		"""Open webbrowser to taskbar help page"""
+		webbrowser.open(consts.URL_HELP_TASKBAR)
+		self.IsOpen = False
 
-    def OnTaskBarRate4Stars(self, event):
-        """Set config data and send metadata to server"""
-        self._config["userrating"] = 4
-        self._config.Save(self._twirlpath)
-        netops.SendMetadata(consts.URL_SEND_META,
-            {"username":self._config["username"].encode("utf-8"),
-            "userid":self._config["userid"], "imageid":self._config["imageid"],
-            "imagerating":4})
-        self.IsOpen = False
+	def OnTaskBarOptions(self, event):
+		"""Open frame to Options panel"""
+		self._parent.frameops.notebookApp.SetSelection(consts.PANEL_OPTIONS)
+		self._parent.frameops.OnFrameShow()
+		self.IsOpen = False
 
-    def OnTaskBarRate5Stars(self, event):
-        """Set config data and send metadata to server"""
-        self._config["userrating"] = 5
-        self._config.Save(self._twirlpath)
-        netops.SendMetadata(consts.URL_SEND_META,
-            {"username":self._config["username"].encode("utf-8"),
-            "userid":self._config["userid"], "imageid":self._config["imageid"],
-            "imagerating":5})
-        self.IsOpen = False
+	def OnTaskBarLogin(self, event):
+		"""Open frame to Sign In panel"""
+		self._parent.frameops.notebookApp.SetSelection(consts.PANEL_LOGIN)
+		self._parent.frameops.OnFrameShow()
+		self.IsOpen = False
 
-    def OnTaskBarFlag(self, event):
-        """Toggle config data and send metadata to server"""
-        self._config["flagimage"] = not self._config["flagimage"]
-        self._config.Save(self._twirlpath)
-        netops.SendMetadata(consts.URL_SEND_META,
-            {"username":self._config["username"].encode("utf-8"),
-            "userid":self._config["userid"], "imageid":self._config["imageid"],
-            "flagimage":self._config["flagimage"]})
-        self.IsOpen = False
+	def OnTaskBarRate1Star(self, event):
+		"""Set config data and send metadata to server"""
+		self._config["userrating"] = 1
+		self._config.Save(self._twirlpath)
+		netops.SendMetadata(consts.URL_SEND_META,
+			{"username":self._config["username"].encode("utf-8"),
+			"userhash":self._config["userhash"], "imageid":self._config["imageid"],
+			"imagerating":1})
+		self.IsOpen = False
 
-    def OnTaskBarSubmitter(self, event):
-        """Open webbrowser to image URL"""
-        webbrowser.open(self._config["imageurl"])
-        self.IsOpen = False
+	def OnTaskBarRate2Stars(self, event):
+		"""Set config data and send metadata to server"""
+		self._config["userrating"] = 2
+		self._config.Save(self._twirlpath)
+		netops.SendMetadata(consts.URL_SEND_META,
+			{"username":self._config["username"].encode("utf-8"),
+			"userhash":self._config["userhash"], "imageid":self._config["imageid"],
+			"imagerating":2})
+		self.IsOpen = False
+
+	def OnTaskBarRate3Stars(self, event):
+		"""Set config data and send metadata to server"""
+		self._config["userrating"] = 3
+		self._config.Save(self._twirlpath)
+		netops.SendMetadata(consts.URL_SEND_META,
+			{"username":self._config["username"].encode("utf-8"),
+			"userhash":self._config["userhash"], "imageid":self._config["imageid"],
+			"imagerating":3})
+		self.IsOpen = False
+
+	def OnTaskBarRate4Stars(self, event):
+		"""Set config data and send metadata to server"""
+		self._config["userrating"] = 4
+		self._config.Save(self._twirlpath)
+		netops.SendMetadata(consts.URL_SEND_META,
+			{"username":self._config["username"].encode("utf-8"),
+			"userhash":self._config["userhash"], "imageid":self._config["imageid"],
+			"imagerating":4})
+		self.IsOpen = False
+
+	def OnTaskBarRate5Stars(self, event):
+		"""Set config data and send metadata to server"""
+		self._config["userrating"] = 5
+		self._config.Save(self._twirlpath)
+		netops.SendMetadata(consts.URL_SEND_META,
+			{"username":self._config["username"].encode("utf-8"),
+			"userhash":self._config["userhash"], "imageid":self._config["imageid"],
+			"imagerating":5})
+		self.IsOpen = False
+
+	def OnTaskBarFlag(self, event):
+		"""Toggle config data and send metadata to server"""
+		self._config["flagimage"] = not self._config["flagimage"]
+		self._config.Save(self._twirlpath)
+		netops.SendMetadata(consts.URL_SEND_META,
+			{"username":self._config["username"].encode("utf-8"),
+			"userhash":self._config["userhash"], "imageid":self._config["imageid"],
+			"flagimage":self._config["flagimage"]})
+		self.IsOpen = False
+
+	def OnTaskBarSubmitter(self, event):
+		"""Open webbrowser to image URL"""
+		webbrowser.open(self._config["imageurl"])
+		self.IsOpen = False

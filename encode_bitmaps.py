@@ -29,13 +29,13 @@ command_lines = [
     "-a -u -i -n Help help.png icons.py",
     "-a -u -i -n Info info.png icons.py",
     "-a -u -i -n Link link.png icons.py",
-    "-a -u -i -n Twirl twirl.png icons.py",
+    "-a -u -i -n Twirl twirlspiral16.png icons.py",
     "-a -u -i -n User user.png icons.py",
     "-a -u -i -n Tag tag.png icons.py",
     "-a -u -i -n Wrench wrench.png icons.py",
     "-a -u -i -n YellowStar yellowstar.png icons.py",
     "-a -u -i -n YellowOrangeStar yelloworangestar.png icons.py",
-    "-a -u -i -n SplashBMP splash.bmp icons.py",
+    "-a -u -i -n SplashBMP twirlbanner.png icons.py",
     ]
 
 def makeimages():

@@ -3,7 +3,7 @@
 Config data is stored as a dictionary
 Default config file is [changed by, max size]:
     'username'      =   'Guest'     Username [FrameOps, 32 chars]
-    'userid'        =   '00000000000000000000000000000000'      From server [FrameOps, 32 chars]
+    'userhash'      =   '00000000000000000000000000000000'      From server [FrameOps, 32 chars]
     'imageid'       =   0           From server [NetOps, int]
     'nextchange'    =   0.0         Next update time [FrameOps, 32 chars]
     'imagerating'   =   1           Image rating from server [NetOps, int]
@@ -17,7 +17,7 @@ Default config file is [changed by, max size]:
 
 Unmodified config file:
                         data = {'username':'Guest',
-                                'userid':'00000000000000000000000000000000',
+                                'userhash':'00000000000000000000000000000000',
                                 'imageid':0,
                                 'nextchange':0.0,
                                 'imagerating':1,
@@ -32,7 +32,7 @@ Unmodified config file:
 
 Modified config file:
             data = {'username':'greatone',
-                'userid':'00000000000000000000000000001234',
+                'userhash':'00000000000000000000000000001234',
                 'imageid':12,
                 'nextchange':0.0,
                 'imagerating':3,
@@ -68,19 +68,20 @@ class ConfigOps(dict):
 
     def __init__(self, data=None):
         if data == None:
-            data = {'username':'Twirlguest',
-                'userid':'00000000000000000000000000001234',
-                'imageid':12,
-                'nextchange':0.0,
-                'imagerating':3,
-                'userrating':1,
-                'flagimage':False,
-                'imageinfo':'Submitted By: Dmitri,\nLicense: Public Domain',
-                'imageurl':'http://www.google.com/search?as_q=wallpaper',
-                'ratedatleast':1,
-                'percentnew':20,
-                'changeevery':3600,
-                }
+			data = {'username':'Guest',
+				'userhash':'00000000000000000000000000000000',
+				'imageid':0,
+				'nextchange':0.0,
+				'imagerating':1,
+				'userrating':0,
+				'flagimage':False,
+				'imageinfo':' ',
+				'imageurl':'',
+				'ratedatleast':1,
+				'percentnew':20,
+				'changeevery':3600,
+				}
+
         dict.__init__(self, data)
 
     def Load(self, twirlpath):
@@ -89,7 +90,7 @@ class ConfigOps(dict):
         errors are ignored."""
 
         try:
-            fconfig = open(twirlpath + 'config.dat','rb')
+            fconfig = open(twirlpath + '/config.dat','rb')
             try:
                 dict.__init__(self,
                     codecops.Decode(fconfig.read()))
@@ -109,7 +110,7 @@ class ConfigOps(dict):
         errors raise ConfigWriteError."""
 
         try:
-            fconfig = open(twirlpath + 'config.dat','wb')
+            fconfig = open(twirlpath + '/config.dat','wb')
             try:
                 configtmp = self.copy()
                 fconfig.write(codecops.Encode(configtmp))
