@@ -34,10 +34,7 @@ def DownloadImage(urladdr):
 def SendMetadata(urladdr, meta):
 	"""Generic metadata transmission"""
 	try:
-		print meta
 		answer = urlopen(urladdr, urlencode(meta)).read()
-		print answer
-
 		return ParseMeta(answer)
 	except:
 		print 'Cannot connect to internet'
@@ -66,7 +63,6 @@ def SendLogin(username, password):
 		answer = urlopen(consts.URL_REQ_LOGIN).read()
 	except:
 		return {'msg':'Cannot connect to website'}
-	print answer
 	return ParseMeta(answer)
 
 

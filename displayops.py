@@ -14,7 +14,7 @@ try:
 except ImportError:
 	from StringIO import StringIO
 from ctypes import windll, c_char_p
-from PIL.Image import open, new
+from PIL import Image
 
 
 class DisplayError(Exception):
@@ -36,7 +36,7 @@ def DisplayImage(imagedata, twirlpath):
 		# pilimage = Image.open(StringIO(image)) did not work,
 		# because image file objects were not closed
 		# ==> Be sure that local test file objects get closed!
-		pilimage = open(StringIO(imagedata))
+		pilimage = Image.open(StringIO(imagedata))
 
 		# Can get display size through
 		#	dispx, dispy = wx.DisplaySize()
@@ -66,7 +66,7 @@ def DisplayImage(imagedata, twirlpath):
 			pilimage = pilimage.resize((resizex, resizey), Image.ANTIALIAS)
 		else:
 			pastex, pastey = ((dispx-imagex)/2, (dispy-imagey)/2)
-		pilblank = new('RGB', (dispx,dispy), 0)
+		pilblank = Image.new('RGB', (dispx,dispy), 0)
 		pilblank.paste(pilimage, (pastex,pastey))
 		pilblank.save(twirlpath + '\image.bmp')
 	except:
