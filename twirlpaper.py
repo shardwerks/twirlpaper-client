@@ -23,7 +23,7 @@ class BoaApp(wx.App):
         splash = wx.SplashScreen(icons.getSplashBMPBitmap(),\
             wx.SPLASH_CENTRE_ON_SCREEN | wx.SPLASH_TIMEOUT, 3000, None, -1,\
             wx.DefaultPosition, wx.DefaultSize,\
-            wx.SIMPLE_BORDER | wx.FRAME_NO_TASKBAR | wx.STAY_ON_TOP)
+            wx.NO_BORDER | wx.FRAME_NO_TASKBAR | wx.STAY_ON_TOP)
 
         # Get executable's path
         self._twirlpath = dirname(unicode(executable, getfilesystemencoding()))
