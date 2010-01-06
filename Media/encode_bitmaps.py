@@ -35,7 +35,7 @@ command_lines = [
     "-a -u -i -n Wrench wrench.png icons.py",
     "-a -u -i -n YellowStar yellowstar.png icons.py",
     "-a -u -i -n YellowOrangeStar yelloworangestar.png icons.py",
-    "-a -u -i -n SplashBMP twirlbanner.png icons.py",
+    "-a -u -i -n SplashBMP twirlsplash.png icons.py",
     ]
 
 def makeimages():
