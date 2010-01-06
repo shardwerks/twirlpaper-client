@@ -379,7 +379,7 @@ class FrameOps(wx.Frame):
 		# Set program icon
 		self.SetIcon(icons.getTwirlIcon())
 
-				# Generate list containing icons
+		# Generate list containing icons
 		iconlist = wx.ImageList(16, 16)
 		iconyellowstar = iconlist.Add(icons.getYellowStarBitmap())
 		iconuser = iconlist.Add(icons.getUserBitmap())
