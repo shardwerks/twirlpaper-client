@@ -1,0 +1,30 @@
+Copyright © 2007-2010, Shardwerks
+All rights reserved.
+
+You are granted a limited non-exclusive license to use Twrilpaper Wallpaper Changer downloadable from Twirlpaper.com for personal, educational, charity, and commercial use, and donations are entirely optional.
+
+If you are using the software free of charge under the terms of this Agreement, you are not entitled to support although we will respond to support requests if they relate to any software that is not performing its task correctly.
+
+Our software is licensed to you in accordance with the terms and conditions of this Agreement. You represent and warrant that you will not violate any of the requirements of this Agreement and further represent and warrant that:
+
+- You will not, and will not permit others to:
+
+(i) reverse engineer, decompile, disassemble, derive the source code of, modify, or create derivative works from our Freeware, or
+
+(ii) copy, distribute, publicly display, or publicly perform content contained in this software other than as expressly authorized by this Agreement.
+
+- You will not use our software to engage in or allow others to engage in any illegal activity.
+
+- You will not engage in using our software that will interfere with or damage the operation of the services of any third parties by overburdening/disabling network resources through automated queries, excessive usage or similar conduct.
+
+- You will not sell our software or charge others for use of it (either for profit or merely to recover your media and distribution costs) whether as a stand-alone product, or as part of a compilation or anthology, without explicit prior written permission.
+
+- You will not use our software to engage in any activity that will violate the rights of third parties, including, without limitation, through the use, public display, public performance, reproduction, distribution, or modification of communications or materials that infringe copyrights, trademarks, publicity rights, privacy rights, other proprietary rights, or rights against defamation of third parties.
+
+- You may not claim any sponsorship by, endorsement by, or affiliation with our company. 
+
+- Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+Permission for any of the above conditions may be requested from Shardwerks, info@shardwerks.com.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
