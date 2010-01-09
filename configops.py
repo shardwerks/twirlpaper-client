@@ -92,8 +92,9 @@ class ConfigOps(dict):
         try:
             fconfig = open(twirlpath + '/config.dat','rb')
             try:
+				# Bound read to 1MB
                 dict.__init__(self,
-                    codecops.Decode(fconfig.read()))
+                    codecops.Decode(fconfig.read(1048576)))
             finally:
                 fconfig.close()
         except IOError:

@@ -24,7 +24,7 @@ def DownloadImage(urladdr):
 	"""Receive image from server"""
 	try:
 		imagedata = urlopen(quote(urladdr, ':/'))
-		image = imagedata.read()
+		image = imagedata.read(41943040)	# Bound read to 4MB
 		imagedata.close()
 	except:
 		raise Exception("Cannot download image")
@@ -34,7 +34,7 @@ def DownloadImage(urladdr):
 def SendMetadata(urladdr, meta):
 	"""Generic metadata transmission"""
 	try:
-		answer = urlopen(urladdr, urlencode(meta)).read()
+		answer = urlopen(urladdr, urlencode(meta)).read(1048576)	# Bound read to 128kB
 		return ParseMeta(answer)
 	except:
 		print 'Cannot connect to internet'
@@ -60,7 +60,7 @@ def SendLogin(username, password):
 
 	try:
 		# Take return value to be user ID, limit return value to 32 characters for protection
-		answer = urlopen(consts.URL_REQ_LOGIN).read()
+		answer = urlopen(consts.URL_REQ_LOGIN).read(1048576)	# Bound read to 128kB
 	except:
 		return {'msg':'Cannot connect to website'}
 	return ParseMeta(answer)
