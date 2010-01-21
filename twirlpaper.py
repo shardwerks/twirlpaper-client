@@ -28,7 +28,6 @@ class BoaApp(wx.App):
 		# Get executable's path
 		self._twirlpath = dirname(unicode(sys.executable, sys.getfilesystemencoding()))
 		print 'twirlpath is ' + self._twirlpath
-		#self._twirlpath = 'C:\\Documents and Settings\\New User\\Desktop\\Twirlpaper\\'
 
 		# Start config
 		self._config = ConfigOps()

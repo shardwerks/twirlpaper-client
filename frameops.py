@@ -327,10 +327,7 @@ class FrameOps(wx.Frame):
 			  wx.BOLD, False, 'MS Shell Dlg 2'))
 
 		self.staticTextAbout2 = wx.StaticText(id=wxID_FRAMEOPSSTATICTEXTABOUT2,
-			  label='version 0.0.1\n\n'
-			  +'Copyright 2009 Shardwerks.  All rights reserved.\n'
-			  +'Twirlpaper and the Twirlpaper logo are trademarks\n'
-			  +'of Shardwerks.  All rights reserved.', name='staticTextAbout2',
+			  label=consts.ABOUT, name='staticTextAbout2',
 			  parent=self.panelAbout, pos=wx.Point(48, 60), size=wx.Size(163,
 			  18), style=0)
 		self.staticTextAbout2.SetFont(wx.Font(8, wx.SWISS, wx.NORMAL,

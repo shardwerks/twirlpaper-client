@@ -63,7 +63,7 @@ def SendLogin(username, password):
 
 	try:
 		# Take return value to be user ID, limit return value to 32 characters for protection
-		useragent = {'User-Agent': 'Twirlpaper/0.1.0'}
+		useragent = urlencode({'User-Agent': 'Twirlpaper/0.1.0'})
 		answer = urlopen(consts.URL_REQ_LOGIN, useragent).read(1048576)	# Bound read to 128kB
 	except:
 		return {'msg':'Cannot connect to website'}

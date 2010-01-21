@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Cross-module constant value definitions"""
 
 
@@ -12,6 +13,12 @@ PANEL_RATETAG   = 0
 PANEL_LOGIN     = 1
 PANEL_OPTIONS   = 2
 PANEL_ABOUT     = 3
+
+# About page
+ABOUT = 'version 0.1.0\n\n\
+Copyright © 2010 LeoEngine.  All rights reserved.\n\
+Twirlpaper and the Twirlpaper logo are trademarks\n\
+of LeoEngine.  All rights reserved.'
 
 # URL listings
 URL_HELP_TASKBAR    = 'http://localhost/cpg14x/faq.php'
