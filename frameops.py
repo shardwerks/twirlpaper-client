@@ -69,8 +69,13 @@ class FrameOps(wx.Frame):
 
 	def _init_ctrls(self, prnt):
 		# generated method, don't edit
+
+		# Pop up frame in middle of display
+		dispx, dispy = wx.DisplaySize()
+		upperx, uppery = ((dispx-344)/2, (dispy-429)/2)
+
 		wx.Frame.__init__(self, id=wxID_FRAMEOPS, name='FrameOps', parent=prnt,
-			  pos=wx.Point(331, 208), size=wx.Size(344, 429),
+			  pos=wx.Point(upperx, uppery), size=wx.Size(344, 429),
 			  style=(wx.DEFAULT_FRAME_STYLE & ~wx.RESIZE_BORDER & ~wx.MAXIMIZE_BOX),
 			  title='Twirlpaper')
 		self.SetClientSize(wx.Size(336, 402))

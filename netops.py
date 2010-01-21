@@ -28,7 +28,7 @@ def DownloadImage(urladdr):
 		image = imagedata.read(41943040)	# Bound read to 4MB
 		imagedata.close()
 	except:
-		raise Exception("Cannot download image")
+		raise Exception()
 	return image
 
 

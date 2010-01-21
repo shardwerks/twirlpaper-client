@@ -10,6 +10,7 @@ import sys
 import icons
 import frameops
 import taskbarops
+import msgpops
 from timerops import TimerOps
 from configops import ConfigOps
 
@@ -43,6 +44,8 @@ class BoaApp(wx.App):
 		self.SetTopWindow(self.frameops)
 		self.taskbarops =\
 			taskbarops.TaskbarOps(self, self._config, self._twirlpath)
+		self.msgpops = msgpops.MsgPops(None)
+		self.msgpops.Hide()
 		return True
 
 	def OnExit(self):

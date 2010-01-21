@@ -34,6 +34,7 @@ class TimerOps(Thread):
 		# the countdown is complete before while-looping again
 		while (self._running):
 			sleep(1)
+			# 1 sec image rotation test
 			#self._config['nextchange']=0
 			self.TimeCheck()
 
@@ -49,7 +50,8 @@ class TimerOps(Thread):
 
 		if time() > self._config['nextchange']\
 			and not self._parent.frameops.IsShown():
-			#and not self._parent.taskbarops.IsOpen:
+			#and not self._parent.taskbarops.IsOpen:  	# DOESN'T WORK when taskbar menu
+														# dismissed with outside click
 			# Download new image to the executable's directory, and
 			# name it image.bmp
 			imagemeta = netops.SendMetadata(consts.URL_REQ_IMAGE,{
@@ -69,12 +71,17 @@ class TimerOps(Thread):
 				try:
 					DisplayImage(imagedata, self._twirlpath)
 				except DisplayError:
+					#self._parent.msgpops.OnFrameShow('Image display failed.')
+
 					# Send error to server
 					netops.SendMetadata(consts.URL_SEND_META,
 						{'username':self._config['username'].encode('utf-8'),
 						'userhash':self._config['userhash'], 'err':'disp'})
 						
 			except:
+				self._parent.msgpops.OnFrameShow('Image download failed.\n\n'+
+					'Please check your internet connection, or check the'+
+					'Twirlpaper.com website for more information.')
 				# Send error to server
 				netops.SendMetadata(consts.URL_SEND_META,
 					{'username':self._config['username'].encode('utf-8'),

@@ -70,7 +70,7 @@ def DisplayImage(imagedata, twirlpath):
 		pilblank.paste(pilimage, (pastex,pastey))
 		pilblank.save(twirlpath + '\image.bmp')
 	except:
-		raise DisplayError('Image cannot be displayed')
+		raise DisplayError()
 
 	# Display image
 	SPI_SETDESKWALLPAPER = 20

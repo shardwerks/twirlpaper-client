@@ -64,9 +64,9 @@ class TaskbarOps(wx.TaskBarIcon):
 		self.IsOpen = False
 
 		# Set taskbar icon and tooltip
-		self.SetIcon(icons.getTwirlIcon(), "Twirlpaper\n"
-			+ "  Double click: new wallpaper\n"
-			+ "  Right click: options")
+		self.SetIcon(icons.getTwirlIcon(), " Twirlpaper\n"
+			+ "   Double click: new wallpaper \n"
+			+ "   Right  click: options")
 
 
 	def CreatePopupMenu(self):
@@ -126,15 +126,16 @@ class TaskbarOps(wx.TaskBarIcon):
 		# Show the flag value
 		menu.Check(wxID_TBMENU_FLAG, self._config["flagimage"])
 
-		#Set IsOpen to True to stop wallpaper from changing while taskbar menu open
-		self.IsOpen = True
+		# Set IsOpen to True to stop wallpaper from changing while taskbar menu open
+		# DOESN'T WORK when taskbar menu dismissed with outside click
+		#self.IsOpen = True
 		return menu
 
 
 	def OnTaskBarNewImage(self, event):
 		"""Initiate new image by setting next change time to 0"""
 		self._config["nextchange"] = 0
-		self.IsOpen = False
+		#self.IsOpen = False
 
 	def OnTaskBarExit(self, event):
 		"""Destroy taskbar icon then frame"""
@@ -145,19 +146,19 @@ class TaskbarOps(wx.TaskBarIcon):
 	def OnTaskBarHelp(self, event):
 		"""Open webbrowser to taskbar help page"""
 		webbrowser.open(consts.URL_HELP_TASKBAR)
-		self.IsOpen = False
+		#self.IsOpen = False
 
 	def OnTaskBarOptions(self, event):
 		"""Open frame to Options panel"""
 		self._parent.frameops.notebookApp.SetSelection(consts.PANEL_OPTIONS)
 		self._parent.frameops.OnFrameShow()
-		self.IsOpen = False
+		#self.IsOpen = False
 
 	def OnTaskBarLogin(self, event):
 		"""Open frame to Sign In panel"""
 		self._parent.frameops.notebookApp.SetSelection(consts.PANEL_LOGIN)
 		self._parent.frameops.OnFrameShow()
-		self.IsOpen = False
+		#self.IsOpen = False
 
 	def OnTaskBarRate1Star(self, event):
 		"""Set config data and send metadata to server"""
@@ -167,7 +168,7 @@ class TaskbarOps(wx.TaskBarIcon):
 			{"username":self._config["username"].encode("utf-8"),
 			"userhash":self._config["userhash"], "imageid":self._config["imageid"],
 			"imagerating":1})
-		self.IsOpen = False
+		#self.IsOpen = False
 
 	def OnTaskBarRate2Stars(self, event):
 		"""Set config data and send metadata to server"""
@@ -177,7 +178,7 @@ class TaskbarOps(wx.TaskBarIcon):
 			{"username":self._config["username"].encode("utf-8"),
 			"userhash":self._config["userhash"], "imageid":self._config["imageid"],
 			"imagerating":2})
-		self.IsOpen = False
+		#self.IsOpen = False
 
 	def OnTaskBarRate3Stars(self, event):
 		"""Set config data and send metadata to server"""
@@ -187,7 +188,7 @@ class TaskbarOps(wx.TaskBarIcon):
 			{"username":self._config["username"].encode("utf-8"),
 			"userhash":self._config["userhash"], "imageid":self._config["imageid"],
 			"imagerating":3})
-		self.IsOpen = False
+		#self.IsOpen = False
 
 	def OnTaskBarRate4Stars(self, event):
 		"""Set config data and send metadata to server"""
@@ -197,7 +198,7 @@ class TaskbarOps(wx.TaskBarIcon):
 			{"username":self._config["username"].encode("utf-8"),
 			"userhash":self._config["userhash"], "imageid":self._config["imageid"],
 			"imagerating":4})
-		self.IsOpen = False
+		#self.IsOpen = False
 
 	def OnTaskBarRate5Stars(self, event):
 		"""Set config data and send metadata to server"""
@@ -207,7 +208,7 @@ class TaskbarOps(wx.TaskBarIcon):
 			{"username":self._config["username"].encode("utf-8"),
 			"userhash":self._config["userhash"], "imageid":self._config["imageid"],
 			"imagerating":5})
-		self.IsOpen = False
+		#self.IsOpen = False
 
 	def OnTaskBarFlag(self, event):
 		"""Toggle config data and send metadata to server"""
@@ -217,9 +218,9 @@ class TaskbarOps(wx.TaskBarIcon):
 			{"username":self._config["username"].encode("utf-8"),
 			"userhash":self._config["userhash"], "imageid":self._config["imageid"],
 			"flagimage":self._config["flagimage"]})
-		self.IsOpen = False
+		#self.IsOpen = False
 
 	def OnTaskBarSubmitter(self, event):
 		"""Open webbrowser to image URL"""
 		webbrowser.open(self._config["imageurl"])
-		self.IsOpen = False
+		#self.IsOpen = False
