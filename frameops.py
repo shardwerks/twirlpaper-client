@@ -208,9 +208,9 @@ class FrameOps(wx.Frame):
 			  id=wxID_FRAMEOPSBUTTONSIGNIN)
 
 		self.staticTextSignedIn = wx.StaticText(id=wxID_FRAMEOPSSTATICTEXTSIGNEDIN,
-			  label='    You are not signed in.', name='staticTextSignedIn',
-			  parent=self.panelLogin, pos=wx.Point(20, 136), size=wx.Size(163,
-			  18), style=0)
+			  label='You are not signed in.', name='staticTextSignedIn',
+			  parent=self.panelLogin, pos=wx.Point(20, 136), size=wx.Size(280,
+			  18), style=wx.ALIGN_CENTRE|wx.ST_NO_AUTORESIZE)
 		self.staticTextSignedIn.SetFont(wx.Font(11, wx.SWISS, wx.NORMAL,
 			  wx.BOLD, False, 'MS Shell Dlg 2'))
 
