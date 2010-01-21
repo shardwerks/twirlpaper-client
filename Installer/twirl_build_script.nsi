@@ -76,12 +76,26 @@ Section -Post
 SectionEnd
 
 
+Function .onInit
+  System::Call 'kernel32::CreateMutexA(i 0, i 0, t "TwirlpaperSetup") ?e'
+  Pop $R0
+  StrCmp $R0 0 +3
+    MessageBox MB_OK "The installer is already running."
+    Abort
+FunctionEnd
+
 Function un.onUninstSuccess
   HideWindow
   MessageBox MB_ICONINFORMATION|MB_OK "$(^Name) was successfully removed from your computer."
 FunctionEnd
 
 Function un.onInit
+;  Following Mutex doesn't seem to work, never goes to uninstall even if not running
+;  System::Call 'kernel32::OpenMutexA(i 0, i 0, t "Twirlpaper2Running") ?e'
+;  Pop $R0
+;  StrCmp $R0 0 +3
+;    MessageBox MB_OK "Twirlpaper is still running.  Please quit Twirlpaper before uninstall."
+;    Abort
   MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove $(^Name) and all of its components?" IDYES +2
   Abort
 FunctionEnd
