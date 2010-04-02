@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Twirlpaper Changer"
-!define PRODUCT_VERSION "0.1.0"
+!define PRODUCT_VERSION "1.0.0"
 !define PRODUCT_PUBLISHER "Shardwerks"
 !define PRODUCT_WEB_SITE "http://www.twirlpaper.com"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\twirlpaper.exe"
@@ -43,7 +43,7 @@ SetCompressor lzma
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "Setup.exe"
+OutFile "Twirlpaper1.0.0.exe"
 InstallDir "$PROGRAMFILES\Twirlpaper Changer"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
