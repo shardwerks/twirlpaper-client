@@ -20,6 +20,9 @@ Copyright © 2010 LeoEngine.  All rights reserved.\n\
 Twirlpaper and the Twirlpaper logo are trademarks\n\
 of LeoEngine.  All rights reserved.'
 
+# User agent
+USER_AGENT = 'Twirlpaper/1.0.0'
+
 # URL listings
 URL_HELP_TASKBAR    = 'http://www.twirlpaper.com/forum.php'
 URL_HELP_RATE       = 'http://www.twirlpaper.com/forum.php'
@@ -31,4 +34,4 @@ URL_REQ_IMAGE       = 'http://www.twirlpaper.com/timgreq.php'
 URL_SEND_META       = 'http://www.twirlpaper.com/tmetadata.php'
 
 # Misc
-REALM = 'Restricted@twirlpaper.com'
+REALM = 'Restricted@twirlpaper.com-161636'

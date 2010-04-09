@@ -68,11 +68,11 @@ setup(	cmdclass = {'py2exe': Py2exeUPX},
 				"icon_resources": [(1, "twirldesktop.ico")]
 			}],
 		name = 'Twirlpaper Wallpaper Changer',
-		version = '0.1.0',
+		version = '1.0.0',
 		description = 'Automatic internet wallpaper retriever and changer',
-		author = 'Shultz Wang',
-		author_email = 'info@twirlpaper.com',
+		author = 'LeoEngine',
+		author_email = 'contact@leoengine.com',
 		url = 'http://www.twirlpaper.com',
-		license = 'Copyright © 2009 Leo Engine, all rights reserved',
+		license = 'Copyright © 2010 LeoEngine, all rights reserved',
 		zipfile = None
 )
